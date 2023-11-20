@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuyd1qv0pn26e"]
+
+[ext_resource type="Script" path="res://addons/midi/MidiPlayer.gd" id="1"]
+
+[node name="MidiPlayer" type="Node"]
+script = ExtResource("1")
+file = "res://the-world-revolving.mid"
+playing = true
+soundfont = "res://ff4sf2.sf2"
