@@ -10,11 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Midi-godot"
+config/name="Ballad for Midi"
 config/description="Simple minimalist shoot-em-up game that responds to MIDI file info."
 run/main_scene="res://src/Main.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/temp_icon.png"
 
 [autoload]
 
