@@ -4,6 +4,5 @@
 
 [node name="MidiPlayer" type="Node"]
 script = ExtResource("1")
-file = "res://the-world-revolving.mid"
-playing = true
-soundfont = "res://ff4sf2.sf2"
+load_all_voices_from_soundfont = false
+soundfont = ""

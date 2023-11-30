@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://76r7ftga6s6m"]
+
+[ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
+[ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
+[ext_resource type="Texture2D" uid="uid://ceo1dbbablpl7" path="res://assets/background_small_dots.png" id="3_gyh0x"]
+[ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_hvkbn")
+
+[node name="MidiPlayer" parent="." instance=ExtResource("2_2pafh")]
+file = "res://assets/the-world-revolving.mid"
+load_all_voices_from_soundfont = true
+soundfont = "res://ff4sf2.sf2"
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("3_gyh0x")
+centered = false
+
+[node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
+position = Vector2(952, 511)

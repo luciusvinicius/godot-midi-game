@@ -1,17 +1,10 @@
-##
-## AudioStreamPlayer with ADSR + Linked by あるる（きのもと 結衣） @arlez80
-##
-## MIT License
-##
 
 class_name AudioStreamPlayerADSR
 
 extends AudioStreamPlayer
 
-## 先頭空白秒数
 const gap_second:float = 1024.0 / 44100.0
 
-## ADSR制御プレイヤー
 @onready var adsr_player:AnimationPlayer = $AnimationPlayer
 
 ## 発音チャンネル
