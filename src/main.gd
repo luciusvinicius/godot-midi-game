@@ -1,7 +1,7 @@
 extends Node
 
 @onready var player : MidiPlayer = $MidiPlayer
-@onready var audio = $AudioStreamPlayer2D
+@onready var audio = $AudioStreamPlayer
 
 var is_fullscreen := false
 

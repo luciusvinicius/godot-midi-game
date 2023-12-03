@@ -20,11 +20,11 @@ soundfont = "res://ff4sf2.sf2"
 texture = ExtResource("3_gyh0x")
 centered = false
 
-[node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
-position = Vector2(951, 548)
-
 [node name="Player" parent="." instance=ExtResource("5_ji33x")]
 position = Vector2(947, 544)
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
+position = Vector2(948, 540)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_pb0cl")
