@@ -1,12 +1,13 @@
 extends Node
 
 @onready var player : MidiPlayer = $MidiPlayer
+@onready var audio = $AudioStreamPlayer2D
 
 var is_fullscreen := false
 
 func _ready():
 	player.play()
-
+	audio.play()
 
 """ func _physics_process(_delta: float) -> void:
 	var move_direction = Vector2(

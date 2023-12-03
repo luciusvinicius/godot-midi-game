@@ -10,6 +10,6 @@ func _ready():
 
 
 func Shoot(channel, _event, note, _velocity):
-	if channel.number == 0:
+	if channel.number in [0, 1]:
 		note_spawners[note%12].Shoot()
 		
