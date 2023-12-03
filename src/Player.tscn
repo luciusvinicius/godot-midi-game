@@ -1,24 +1,35 @@
-[gd_scene load_steps=5 format=3 uid="uid://druu1cbmft3y"]
+[gd_scene load_steps=6 format=3 uid="uid://druu1cbmft3y"]
 
 [ext_resource type="Curve2D" uid="uid://8m5la2nax8vp" path="res://assets/circle_path.tres" id="1_eidwu"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_evk7y"]
 [ext_resource type="Texture2D" uid="uid://cuvank0lawu7t" path="res://assets/player.png" id="2_dj3pf"]
+[ext_resource type="Texture2D" uid="uid://d0yjfpch1pt86" path="res://assets/path.png" id="4_wci08"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ufao3"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ftu0x"]
+size = Vector2(8.834, 8.61294)
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_evk7y")
 
+[node name="PathSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.784314)
+scale = Vector2(0.85, 0.9)
+texture = ExtResource("4_wci08")
+
 [node name="Path2D" type="Path2D" parent="."]
 curve = ExtResource("1_eidwu")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-motion_mode = 1
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(0, -400)
+rotation = 0.102207
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-scale = Vector2(5, 5)
+[node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D"]
+modulate = Color(1, 1, 1, 0.784314)
+scale = Vector2(6, 6)
 texture = ExtResource("2_dj3pf")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-scale = Vector2(2.31793, 2.31793)
-shape = SubResource("RectangleShape2D_ufao3")
+[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D/Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Sprite2D/Area2D"]
+position = Vector2(-4.76837e-07, 7.62939e-06)
+shape = SubResource("RectangleShape2D_ftu0x")
