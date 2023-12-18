@@ -11,11 +11,11 @@ var curve_progress := Vector2.ZERO
 
 
 func _physics_process(delta):
-    directional_input.x = Input.get_action_strength("Move_Right") - Input.get_action_strength("Move_Left")
+	directional_input.x = Input.get_action_strength("Move_Right") - Input.get_action_strength("Move_Left")
 
-    if directional_input.x != 0:
-        curve_progress = curve_progress.move_toward(directional_input * speed, acceleration * delta)
-    else:
-        curve_progress = curve_progress.move_toward(Vector2.ZERO, friction * delta)
-    
-    path_ref.progress = path_ref.progress + curve_progress.x
+	if directional_input.x != 0:
+		curve_progress = curve_progress.move_toward(directional_input * speed, acceleration * delta)
+	else:
+		curve_progress = curve_progress.move_toward(Vector2.ZERO, friction * delta)
+	
+	path_ref.progress = path_ref.progress + curve_progress.x
