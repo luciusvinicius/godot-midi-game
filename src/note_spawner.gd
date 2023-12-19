@@ -13,12 +13,21 @@ func _ready():
 	pass # Replace with function body.
 
 
+# TODO: What to do if more than one note spawns while other's animation is happening
 func prepare_shot(note_duration: int):
-	var animation_speed = Global.BIGGEST_DURATION/note_duration
-	timer.wait_time = DEFAULT_WAIT_TIME * (1 - 1.0/animation_speed)
-	#timer.start()
-	#await timer.timeout
-	anim_player.play("LongShoot", -1, animation_speed)
+	
+	# TODO: do something fr, this is just for my sanity
+	if anim_player.is_playing() or timer.time_left != 0: 
+		return
+	
+	var animation_time = note_duration/Global.BIGGEST_DURATION
+	var wait_time = DEFAULT_WAIT_TIME - (DEFAULT_WAIT_TIME * animation_time)
+
+	if wait_time > 0:
+		timer.wait_time = wait_time
+		timer.start()
+		await timer.timeout
+	anim_player.play("LongShoot", -1, 1/animation_time)
 
 func shoot():
 	# Create note

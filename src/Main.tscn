@@ -33,6 +33,7 @@ stream = ExtResource("6_pb0cl")
 [node name="ScreenShake" parent="." instance=ExtResource("7_ovl8v")]
 
 [node name="SongDelay" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 autostart = true
 

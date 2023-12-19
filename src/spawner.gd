@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var outer_circle = $OuterCircle
-@onready var timer : Timer = $Timer
 var note_spawners
 
 
