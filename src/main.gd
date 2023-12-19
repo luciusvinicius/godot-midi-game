@@ -2,6 +2,7 @@ extends Node
 
 @onready var player : MidiPlayer = $MidiPlayer
 @onready var audio = $AudioStreamPlayer
+@onready var song_delay = $SongDelay
 
 var is_fullscreen := false
 
@@ -12,7 +13,6 @@ var curStrength = 0;
 
 func _ready():
 	player.play()
-	audio.play()
 
 
 func _process(delta):
@@ -39,3 +39,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 			is_fullscreen = true
+
+
+func _on_song_delay_timeout():
+	audio.play()

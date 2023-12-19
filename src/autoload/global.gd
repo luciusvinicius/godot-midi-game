@@ -5,16 +5,18 @@ extends Node
 # Channel: [note1, note2]
 # Note: {"value": 87, "duration": 40}
 var note_durations := {}
+const BIGGEST_DURATION = 384.0
 
-
-func get_note_duration(specific_note: int, channel: int, delete_note := false, reversed := false) -> Dictionary:
+func get_note_duration(specific_note: int, channel: int, delete_note := true, reversed := false) -> Dictionary:
 	var channel_notes : Array = note_durations[channel]
+	# Get notes with correct value
 	var possible_notes : Array = channel_notes.filter(func(note): return note.value == specific_note)
+	
 	if possible_notes.size() == 0: 
 		push_error("Note %d not existent in channel %d." % [specific_note, channel])
 		return {}
-	
 	var ret
+	
 	if reversed: ret = possible_notes[-1]
 	else: ret = possible_notes[0]
 	
@@ -22,6 +24,5 @@ func get_note_duration(specific_note: int, channel: int, delete_note := false, r
 	if delete_note:
 		var note_idx = channel_notes.find(ret)
 		channel_notes.remove_at(note_idx)
-	
 	return ret
 	

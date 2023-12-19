@@ -445,11 +445,12 @@ func _add_to_duration_dict(time, channel, event):
 				note_durations[channel] = [note]
 			else:
 				note_durations[channel].append(note)
+		
 		MIDIEventType.note_off:
-			
 			# Update duration from note
 			var note = Global.get_note_duration(event.note, channel, false, true)
 			note.duration = time - note.duration
+
 
 ## システムイベントか否かを返す
 ## @param	b	イベント番号
