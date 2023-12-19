@@ -1,8 +1,8 @@
 extends Node2D
 
+const BASE_SPEED = 200
 @export var speed = 200
 var direction : Vector2
-var teste
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
