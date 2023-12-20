@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bjfi30ohqtuaq"]
 
 [ext_resource type="Script" path="res://src/Note.gd" id="1_orbi7"]
-[ext_resource type="Texture2D" uid="uid://cf4cco4c0xjxl" path="res://assets/bullet.png" id="1_u80n4"]
+[ext_resource type="Texture2D" uid="uid://dpduhnoq38r7y" path="res://assets/small_bullet.png" id="2_pkq00"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_15bxd"]
 radius = 16.0
@@ -11,8 +11,9 @@ script = ExtResource("1_orbi7")
 speed = 300
 
 [node name="Bullet" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("1_u80n4")
+modulate = Color(1, 1, 1, 0.784314)
+scale = Vector2(5, 5)
+texture = ExtResource("2_pkq00")
 
 [node name="Area" type="Area2D" parent="."]
 

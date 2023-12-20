@@ -1,33 +1,60 @@
-[gd_scene load_steps=8 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=11 format=3 uid="uid://76r7ftga6s6m"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
+[ext_resource type="VideoStream" path="res://assets/howls_moving_castle.ogv" id="2_tatjf"]
 [ext_resource type="Texture2D" uid="uid://ceo1dbbablpl7" path="res://assets/background_small_dots.png" id="3_gyh0x"]
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
+[ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="4_laag1"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
-[ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/Deltarune-Orchestral-edited.mp3" id="6_pb0cl"]
+[ext_resource type="AudioStream" uid="uid://blecd1bdjmnon" path="res://assets/howls_moving_castle.mp3" id="7_3v5p2"]
 [ext_resource type="PackedScene" uid="uid://dcye1u0sqmgt8" path="res://src/visual_effects/ScreenShake.tscn" id="7_ovl8v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_suf5s"]
+shader = ExtResource("4_laag1")
+shader_parameter/STRETCH = 0.6
+shader_parameter/MULTIPLIER = 1.3
+shader_parameter/MIN = 0.1
+shader_parameter/MAX = 0.4
 
 [node name="Main" type="Node"]
 script = ExtResource("1_hvkbn")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+ratio = 1.7778
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="CanvasLayer/AspectRatioContainer"]
+layout_mode = 2
+stream = ExtResource("2_tatjf")
+autoplay = true
+expand = true
+
 [node name="MidiPlayer" parent="." instance=ExtResource("2_2pafh")]
-file = "res://assets/the-world-revolving.mid"
+file = "res://assets/howls_moving_castle_164.mid"
 volume_db = -80.0
-load_all_voices_from_soundfont = true
-soundfont = "res://ff4sf2.sf2"
 
 [node name="Background" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_suf5s")
 texture = ExtResource("3_gyh0x")
 centered = false
 
 [node name="Player" parent="." instance=ExtResource("5_ji33x")]
-position = Vector2(947, 544)
+position = Vector2(948, 540)
 
 [node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
 position = Vector2(948, 540)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_pb0cl")
+stream = ExtResource("7_3v5p2")
 
 [node name="ScreenShake" parent="." instance=ExtResource("7_ovl8v")]
