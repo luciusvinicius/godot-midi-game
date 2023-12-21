@@ -1,21 +1,26 @@
-[gd_scene load_steps=11 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=13 format=3 uid="uid://76r7ftga6s6m"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
 [ext_resource type="VideoStream" path="res://assets/howls_moving_castle.ogv" id="2_tatjf"]
-[ext_resource type="Texture2D" uid="uid://ceo1dbbablpl7" path="res://assets/background_small_dots.png" id="3_gyh0x"]
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
-[ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="4_laag1"]
+[ext_resource type="Shader" path="res://assets/shaders/vignette_noisy.gdshader" id="4_hc1ig"]
+[ext_resource type="Texture2D" uid="uid://br2new5htl7yo" path="res://assets/noise.png" id="5_4vwvi"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
+[ext_resource type="Texture2D" uid="uid://dhoe8qxw6otsh" path="res://assets/background_solid.png" id="6_kkffi"]
 [ext_resource type="AudioStream" uid="uid://blecd1bdjmnon" path="res://assets/howls_moving_castle.mp3" id="7_3v5p2"]
+[ext_resource type="Texture2D" uid="uid://c65sr80t5mqvu" path="res://assets/background_dots.png" id="7_nc5q5"]
 [ext_resource type="PackedScene" uid="uid://dcye1u0sqmgt8" path="res://src/visual_effects/ScreenShake.tscn" id="7_ovl8v"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_suf5s"]
-shader = ExtResource("4_laag1")
-shader_parameter/STRETCH = 0.6
-shader_parameter/MULTIPLIER = 1.3
-shader_parameter/MIN = 0.1
-shader_parameter/MAX = 0.4
+shader = ExtResource("4_hc1ig")
+shader_parameter/NOISE_TILE = 2.0
+shader_parameter/SMOOTH = 0.81
+shader_parameter/MIN = 0.59
+shader_parameter/MAX = 0.0
+shader_parameter/STRETCH = 0.648
+shader_parameter/MULTIPLIER = 0.001
+shader_parameter/mask = ExtResource("5_4vwvi")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_hvkbn")
@@ -45,7 +50,11 @@ volume_db = -80.0
 
 [node name="Background" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_suf5s")
-texture = ExtResource("3_gyh0x")
+texture = ExtResource("6_kkffi")
+centered = false
+
+[node name="BackgroundDots" type="Sprite2D" parent="."]
+texture = ExtResource("7_nc5q5")
 centered = false
 
 [node name="Player" parent="." instance=ExtResource("5_ji33x")]
