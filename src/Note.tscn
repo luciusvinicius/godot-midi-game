@@ -8,7 +8,6 @@ radius = 16.0
 
 [node name="Note" type="Node2D"]
 script = ExtResource("1_orbi7")
-speed = 300
 
 [node name="Bullet" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)

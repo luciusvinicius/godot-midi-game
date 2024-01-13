@@ -27,13 +27,14 @@ func prepare_shot(note_duration: int):
 		timer.wait_time = wait_time
 		timer.start()
 		await timer.timeout
-	note_speed = 1/animation_time
+	note_speed = animation_time
 	anim_player.play("LongShoot", -1, 1/animation_time)
 
 func shoot():
+	# Called on the "SpawnerAnim" AnimatonPlayer
 	# Create note
 	var note = note_scene.instantiate()
 	note.position = position + Vector2.UP * SPAWN_OFFSET
-	note.speed = note.BASE_SPEED * note_speed
+	note.max_speed = note_speed
 	add_child(note)
 
