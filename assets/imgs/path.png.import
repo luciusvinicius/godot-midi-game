@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brhhdoxufoco3"
-path="res://.godot/imported/center_fraction.png-8a872e58717316eddec3460ae3de4e57.ctex"
+uid="uid://d0yjfpch1pt86"
+path="res://.godot/imported/path.png-961e49cc5b834ae2771504c15d4167a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/center_fraction.png"
-dest_files=["res://.godot/imported/center_fraction.png-8a872e58717316eddec3460ae3de4e57.ctex"]
+source_file="res://assets/imgs/path.png"
+dest_files=["res://.godot/imported/path.png-961e49cc5b834ae2771504c15d4167a0.ctex"]
 
 [params]
 

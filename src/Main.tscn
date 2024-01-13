@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=9 format=3 uid="uid://76r7ftga6s6m"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
-[ext_resource type="Texture2D" uid="uid://ceo1dbbablpl7" path="res://assets/background_small_dots.png" id="3_gyh0x"]
+[ext_resource type="Texture2D" uid="uid://ceo1dbbablpl7" path="res://assets/imgs/background_small_dots.png" id="3_gyh0x"]
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
-[ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/Deltarune-Orchestral-edited.mp3" id="6_pb0cl"]
+[ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/sounds/Deltarune-Orchestral-edited.mp3" id="6_pb0cl"]
 [ext_resource type="PackedScene" uid="uid://dcye1u0sqmgt8" path="res://src/visual_effects/ScreenShake.tscn" id="7_ovl8v"]
+[ext_resource type="PackedScene" uid="uid://dltchrbvnx74c" path="res://src/hud/hud.tscn" id="8_rrypj"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_hvkbn")
@@ -36,5 +37,7 @@ stream = ExtResource("6_pb0cl")
 wait_time = 2.0
 one_shot = true
 autostart = true
+
+[node name="HUD" parent="." instance=ExtResource("8_rrypj")]
 
 [connection signal="timeout" from="SongDelay" to="." method="_on_song_delay_timeout"]

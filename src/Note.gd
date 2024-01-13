@@ -1,33 +1,60 @@
 extends Node2D
 
+const BASE_SCORE = 100
 const BASE_SPEED = 800
-const INITIAL_SPEED_RATE = 0.75 # % of final speed
-@export var max_speed : float # Defined on the time of animation, on NoteSpawner scene.
+const INITIAL_SPEED_RATE = 0.75 # % of final speed (0.75 looks good)
+var max_speed : float # Defined on the time of animation, on NoteSpawner scene.
+@onready var score_audio = $ScoreAudio
+
 
 # Cosine movement (rads)
-@onready var base_position = position
 @onready var initial_speed = INITIAL_SPEED_RATE * BASE_SPEED * max_speed
 @onready var acceleration = _calculate_acceleration(initial_speed, BASE_SPEED * max_speed)
 @onready var speed = initial_speed
+const ACCELERATION_MULTIPLIER = 1.25
 
-
+# Point System
+const POINT_SPRITE = preload("res://assets/imgs/bullet2.png")
+var give_points := false
+@onready var sprite = $Sprite
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#var time = timer.time_left - initial_time / 2 # Keep in the interval of [-1, 1] to help calculations
-	#var speed_modifier = max(sin(PI/1.0 * time), sin(3*PI/(1.0 * 2))) # The bullet shouldn't go foward after
 	speed += acceleration * delta
 	position += Vector2.UP * speed * delta # Direction has rotation of parent node in consideration
+	
+	# Invert when passed center
 	if speed > max_speed * BASE_SPEED:
-		acceleration *= -1
-	pass
+		acceleration *= -ACCELERATION_MULTIPLIER
+	
+	# Convert to a point before starting to go back
+	elif speed < 0 and not give_points: turn_into_point()
+	
+	# Projectile hit the center --> ban
+	elif speed < -BASE_SPEED * max_speed * ACCELERATION_MULTIPLIER: queue_free()
+	
+
+func turn_into_point():
+	give_points = true
+	sprite.texture = POINT_SPRITE
+
+func give_point():
+	score_audio.play()
+	sprite.hide()
+	SignalManager.gained_points.emit(BASE_SCORE)
 
 
-func _on_visibility_screen_exited():
-	# Clean object if not on screen
-	queue_free()
 
-func _calculate_acceleration(initial_speed, max_speed, distance:= 200):
+func _calculate_acceleration(initial_speed, max_speed, distance:= 250):
 	# Calculate the acceleration based on Torricelli's formula
 	return (max_speed**2 - initial_speed**2) / (2.0 * distance)
+
+func _on_area_area_entered(area):
+	var player = area.owner
+	if player.name != "Player": return
+	
+	if give_points and sprite.visible:
+		give_point()
+	elif not give_points:
+		print("You should kill yourself now.")
 	

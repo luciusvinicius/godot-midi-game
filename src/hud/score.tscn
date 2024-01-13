@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciplsp4kbcqcx"]
+
+[ext_resource type="Script" path="res://src/hud/score.gd" id="1_5novl"]
+
+[node name="Score" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5novl")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 38.0
+offset_right = 426.0
+offset_bottom = 175.0
+theme_override_colors/font_color = Color(0.831373, 0.596078, 0.290196, 1)
+theme_override_font_sizes/font_size = 100
+text = "Score: 0"

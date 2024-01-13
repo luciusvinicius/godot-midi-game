@@ -18,10 +18,10 @@ func _ready():
 func _process(delta):
 	# Probably this should be in a function in another scene
 	curStrength = max(curStrength - delta * 2, 0); # - delta * NUMBER --> ratio of shake to stop
-	if(Input.is_action_just_pressed("Move_Left")):
-		curStrength = strength;
-	
-	screen_shake.get_child(0).material.set_shader_parameter("ShakeStrength", max(curStrength,0))
+	#if(Input.is_action_just_pressed("Move_Left")):
+		#curStrength = strength;
+	#
+	#screen_shake.get_child(0).material.set_shader_parameter("ShakeStrength", max(curStrength,0))
 
 """ func _physics_process(_delta: float) -> void:
 	var move_direction = Vector2(

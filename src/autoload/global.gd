@@ -26,3 +26,7 @@ func get_note_duration(specific_note: int, channel: int, delete_note := true, re
 		channel_notes.remove_at(note_idx)
 	return ret
 	
+
+
+# Game information
+var score := 0

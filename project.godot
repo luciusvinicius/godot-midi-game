@@ -14,7 +14,7 @@ config/name="Ballad for Midi"
 config/description="Simple minimalist shoot-em-up game that responds to MIDI file info."
 run/main_scene="res://src/Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://assets/temp_icon.png"
+config/icon="res://assets/imgs/temp_icon.png"
 
 [autoload]
 

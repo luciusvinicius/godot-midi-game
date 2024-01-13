@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cdsa3og61lva8"]
 
-[ext_resource type="Texture2D" uid="uid://brhhdoxufoco3" path="res://assets/center_fraction.png" id="1_hpt6q"]
+[ext_resource type="Texture2D" uid="uid://brhhdoxufoco3" path="res://assets/imgs/center_fraction.png" id="1_hpt6q"]
 [ext_resource type="Script" path="res://src/note_spawner.gd" id="2_5bb33"]
 
 [sub_resource type="Animation" id="Animation_24qji"]

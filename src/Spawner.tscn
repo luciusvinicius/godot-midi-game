@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dn5jja5eeq6ky"]
 
 [ext_resource type="Script" path="res://src/spawner.gd" id="1_dc5bc"]
-[ext_resource type="Texture2D" uid="uid://0jpkpsrgsiwu" path="res://assets/speaker.png" id="2_tlknq"]
+[ext_resource type="Texture2D" uid="uid://0jpkpsrgsiwu" path="res://assets/imgs/speaker.png" id="2_tlknq"]
 [ext_resource type="PackedScene" uid="uid://cdsa3og61lva8" path="res://src/NoteSpawner.tscn" id="3_xitu5"]
 
 [node name="Spawner" type="Node2D"]
