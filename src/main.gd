@@ -18,7 +18,7 @@ func _ready():
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Escape"):
+	if event.is_action_pressed("pause"):
 		if is_fullscreen:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			is_fullscreen = false

@@ -1,34 +1,70 @@
-[gd_scene load_steps=8 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=13 format=3 uid="uid://76r7ftga6s6m"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
-[ext_resource type="Texture2D" uid="uid://ceo1dbbablpl7" path="res://assets/imgs/background_small_dots.png" id="3_gyh0x"]
+[ext_resource type="VideoStream" path="res://assets/sounds/howls_moving_castle.ogv" id="2_5j6qq"]
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
+[ext_resource type="AudioStream" uid="uid://g4bkiyvoqxkw" path="res://assets/sounds/howls_moving_castle.mp3" id="4_uupwm"]
+[ext_resource type="Shader" path="res://src/visual_effects/vignette_noisy.gdshader" id="5_8bf1v"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
-[ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/sounds/Deltarune-Orchestral-edited.mp3" id="6_pb0cl"]
+[ext_resource type="Texture2D" uid="uid://c88lfmglvo6dh" path="res://assets/imgs/noise.png" id="6_jltfv"]
+[ext_resource type="Texture2D" uid="uid://dqfl218krqn7l" path="res://assets/imgs/background_solid.png" id="7_obfh2"]
+[ext_resource type="Texture2D" uid="uid://20ileqajublo" path="res://assets/imgs/background_dots.png" id="8_l8igh"]
 [ext_resource type="PackedScene" uid="uid://dltchrbvnx74c" path="res://src/hud/hud.tscn" id="8_rrypj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m2vh6"]
+shader = ExtResource("5_8bf1v")
+shader_parameter/NOISE_TILE = 2.0
+shader_parameter/SMOOTH = 0.81
+shader_parameter/MIN = 0.455
+shader_parameter/MAX = 0.0
+shader_parameter/STRETCH = 0.648
+shader_parameter/MULTIPLIER = 0.001
+shader_parameter/mask = ExtResource("6_jltfv")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_hvkbn")
 
+[node name="VideoLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VideoLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+ratio = 1.7778
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VideoLayer/AspectRatioContainer"]
+layout_mode = 2
+stream = ExtResource("2_5j6qq")
+autoplay = true
+expand = true
+
 [node name="MidiPlayer" parent="." instance=ExtResource("2_2pafh")]
-file = "res://assets/sounds/the-world-revolving.mid"
+file = "res://assets/sounds/howls_moving_castle_164.mid"
 volume_db = -80.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_pb0cl")
+stream = ExtResource("4_uupwm")
 
 [node name="Background" type="Sprite2D" parent="."]
-texture = ExtResource("3_gyh0x")
+material = SubResource("ShaderMaterial_m2vh6")
+texture = ExtResource("7_obfh2")
 centered = false
 
 [node name="BackgroundDots" type="Sprite2D" parent="."]
+texture = ExtResource("8_l8igh")
+centered = false
 
 [node name="Player" parent="." instance=ExtResource("5_ji33x")]
-position = Vector2(947, 544)
+position = Vector2(960, 540)
 
 [node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
-position = Vector2(948, 540)
+position = Vector2(960, 540)
 
 [node name="SongDelay" type="Timer" parent="."]
 wait_time = 2.0

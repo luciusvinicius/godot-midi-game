@@ -3,7 +3,7 @@ extends Node2D
 @onready var anim_player : AnimationPlayer = $Sprite/SpawnerAnim
 @onready var timer : Timer = $Timer
 
-var note_scene = preload("res://src/Note.tscn")
+var note_scene = preload("res://src/NoteProjectile.tscn")
 
 const SPAWN_OFFSET = 100
 const DEFAULT_WAIT_TIME = 2 # seconds (equal to timer on Main scene)

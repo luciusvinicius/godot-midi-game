@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://druu1cbmft3y"]
 
-[ext_resource type="Curve2D" uid="uid://8m5la2nax8vp" path="res://assets/imgs/circle_path.tres" id="1_eidwu"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_evk7y"]
 [ext_resource type="Texture2D" uid="uid://cuvank0lawu7t" path="res://assets/imgs/player.png" id="2_dj3pf"]
+[ext_resource type="Curve2D" uid="uid://8m5la2nax8vp" path="res://assets/circle_path.tres" id="3_udphw"]
 [ext_resource type="Texture2D" uid="uid://d0yjfpch1pt86" path="res://assets/imgs/path.png" id="4_wci08"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ftu0x"]
@@ -17,7 +17,7 @@ scale = Vector2(0.85, 0.9)
 texture = ExtResource("4_wci08")
 
 [node name="Path2D" type="Path2D" parent="."]
-curve = ExtResource("1_eidwu")
+curve = ExtResource("3_udphw")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 position = Vector2(0, -400)

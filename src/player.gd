@@ -11,7 +11,7 @@ var curve_progress := Vector2.ZERO
 
 
 func _physics_process(delta):
-	directional_input.x = Input.get_action_strength("Move_Right") - Input.get_action_strength("Move_Left")
+	directional_input.x = Input.get_action_strength("mov_right") - Input.get_action_strength("mov_left")
 
 	if directional_input.x != 0:
 		curve_progress = curve_progress.move_toward(directional_input * speed, acceleration * delta)
