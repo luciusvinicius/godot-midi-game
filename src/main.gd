@@ -1,34 +1,20 @@
 extends Node
 
-@onready var player : MidiPlayer = $MidiPlayer
-@onready var audio = $AudioStreamPlayer
+
+@onready var midi_player : MidiPlayer = $MidiPlayer
+@onready var audio_player : AudioStreamPlayer = $AudioStreamPlayer
 @onready var song_delay = $SongDelay
 
 var is_fullscreen := false
 
-# Test
-var strength = 0.5;
-var curStrength = 0;
-@onready var screen_shake = $ScreenShake
+# TestVideo
+var mask_radius := 0.0
+var my_tween
+@onready var background_sprite : Sprite2D = $Background
+
 
 func _ready():
-	player.play()
-
-
-func _process(delta):
-	# Probably this should be in a function in another scene
-	curStrength = max(curStrength - delta * 2, 0); # - delta * NUMBER --> ratio of shake to stop
-	#if(Input.is_action_just_pressed("Move_Left")):
-		#curStrength = strength;
-	#
-	#screen_shake.get_child(0).material.set_shader_parameter("ShakeStrength", max(curStrength,0))
-
-""" func _physics_process(_delta: float) -> void:
-	var move_direction = Vector2(
-		Input.get_action_strength("mov_right") - Input.get_action_strength("mov_left"),
-		Input.get_action_strength("mov_down") - Input.get_action_strength("mov_up")
-	).normalized() """
-
+	midi_player.play()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -40,6 +26,33 @@ func _unhandled_input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 			is_fullscreen = true
 
+	if event.is_action_pressed("more_radius"):
+		handle_mask_radius(true)
+
+	if event.is_action_pressed("less_radius"):
+		handle_mask_radius(false)
+
+
+# --- || Video Reveal Shader || ---
+
+func handle_mask_radius(increase: bool):
+	var modifier := 1.0
+	if !increase:
+		modifier = -1.0
+
+	var cache_radius := mask_radius
+	mask_radius += 0.1 * modifier 
+	mask_radius = clamp(mask_radius, 0.001, 0.3)
+
+	var my_tween2 = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	my_tween2.tween_method(set_mask_radius.bind(background_sprite), cache_radius, mask_radius, 1.0)
+
+
+func set_mask_radius(new_radius: float, sprite: Sprite2D):
+	sprite.material.set_shader_parameter("MULTIPLIER", new_radius)
+
+
+# --- || Signals || ---
 
 func _on_song_delay_timeout():
-	audio.play()
+	audio_player.play()

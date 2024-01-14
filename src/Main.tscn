@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=8 format=3 uid="uid://76r7ftga6s6m"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
@@ -6,32 +6,29 @@
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
 [ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/sounds/Deltarune-Orchestral-edited.mp3" id="6_pb0cl"]
-[ext_resource type="PackedScene" uid="uid://dcye1u0sqmgt8" path="res://src/visual_effects/ScreenShake.tscn" id="7_ovl8v"]
 [ext_resource type="PackedScene" uid="uid://dltchrbvnx74c" path="res://src/hud/hud.tscn" id="8_rrypj"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_hvkbn")
 
 [node name="MidiPlayer" parent="." instance=ExtResource("2_2pafh")]
-file = "res://assets/the-world-revolving.mid"
+file = "res://assets/sounds/the-world-revolving.mid"
 volume_db = -80.0
-load_all_voices_from_soundfont = true
-soundfont = "res://ff4sf2.sf2"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_pb0cl")
 
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("3_gyh0x")
 centered = false
+
+[node name="BackgroundDots" type="Sprite2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("5_ji33x")]
 position = Vector2(947, 544)
 
 [node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
 position = Vector2(948, 540)
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_pb0cl")
-
-[node name="ScreenShake" parent="." instance=ExtResource("7_ovl8v")]
 
 [node name="SongDelay" type="Timer" parent="."]
 wait_time = 2.0
