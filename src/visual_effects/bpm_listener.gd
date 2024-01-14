@@ -22,7 +22,7 @@ func set_bpm(val:float):
 
 func shake():
 	var shake_intensity
-	if n_shakes%beats_per_shake == 0: 
+	if n_shakes%beats_per_shake == 0: # Compass shake has different intensity
 		shake_intensity = screen_shake.INTENSITY * COMPASS_SHAKE_MULTIPLIER
 	else:
 		shake_intensity = screen_shake.INTENSITY
@@ -36,12 +36,12 @@ func _process(delta):
 	
 	# Convert to BPS and then make the amount of Beats / Second
 	var bps = bpm / 60
-	var beat_time = (1 / bps) * (4 / beats_per_shake)
+	var beat_time = (1 / bps) * (4 / beats_per_shake) 
 	time += delta
 	if time > beat_time :
 		shake()
 		time -= beat_time
 
 func _on_song_delay_timeout():
-	shake()
+	shake() # Initial shake
 	has_started = true
