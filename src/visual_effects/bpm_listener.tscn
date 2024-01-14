@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://qnl0vr1a1qle"]
+
+[ext_resource type="Script" path="res://src/visual_effects/bpm_listener.gd" id="1_3kaw2"]
+
+[node name="BPMListener" type="Node"]
+script = ExtResource("1_3kaw2")

@@ -528,6 +528,7 @@ func set_smf_data( sd:SMF.SMFData ) -> void:
 
 func set_tempo( bpm:float ) -> void:
 	tempo = bpm
+	SignalManager.set_bpm.emit(bpm)
 	self.seconds_to_timebase = tempo / 60.0
 	self.timebase_to_seconds = 60.0 / tempo
 	self.emit_signal( "changed_tempo", bpm )

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcye1u0sqmgt8"]
+[gd_scene load_steps=4 format=3 uid="uid://dcye1u0sqmgt8"]
 
 [ext_resource type="Shader" path="res://src/visual_effects/screen_shake.gdshader" id="1_1dig2"]
+[ext_resource type="Script" path="res://src/visual_effects/ScreenShake.gd" id="1_fnmei"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r3jfa"]
 shader = ExtResource("1_1dig2")
@@ -10,6 +11,7 @@ shader_parameter/FactorB = Vector2(1, 1)
 shader_parameter/magnitude = Vector2(0.01, 0.01)
 
 [node name="ScreenShake" type="CanvasLayer"]
+script = ExtResource("1_fnmei")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_r3jfa")
