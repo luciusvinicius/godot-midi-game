@@ -10,7 +10,7 @@ var strength := 0.0
 var decrease_ratio := 0.0
 var INTENSITY := 0.15
 var TIME := 0.5
-var PLAYER_HIT_INTENSITY_MULTIPLIER := 10.0
+var PLAYER_HIT_INTENSITY_MULTIPLIER := 7.5
 
 func _ready():
 	SignalManager.hit_player.connect(receive_player_damage)

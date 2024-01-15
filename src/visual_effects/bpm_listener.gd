@@ -4,7 +4,7 @@ extends Node
 @export var screen_shake:ScreenShake 
 
 # -- || Consts || --
-const COMPASS_SHAKE_MULTIPLIER = 4
+const COMPASS_SHAKE_MULTIPLIER = 2.5
 
 # -- || Vars || --
 var has_started := false
