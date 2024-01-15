@@ -6,10 +6,14 @@ const INITIAL_SPEED_RATE = 0.75 # % of final speed (0.75 looks good)
 var max_speed : float # Defined on the time of animation, on NoteSpawner scene.
 @onready var score_audio = $ScoreAudio
 @onready var sprite_ref : Sprite2D = $Sprite
+@onready var trail_particles = $TrailParticles
 
+# -- || Points Vars || --
 var give_points := false
+const trail_point_texture = preload("res://assets/imgs/small_bullet-points.png")
+@onready var point_particles = $PointParticles
 
-# Cosine movement (rads)
+# -- || Torricelli Vars || --
 @onready var initial_speed = INITIAL_SPEED_RATE * BASE_SPEED * max_speed
 @onready var acceleration = _calculate_acceleration(initial_speed, BASE_SPEED * max_speed)
 @onready var speed = initial_speed
@@ -41,11 +45,15 @@ func _calculate_acceleration(new_initial_speed, new_max_speed, distance:= 250):
 func turn_into_point():
 	give_points = true
 	sprite_ref.modulate.r = 0.0;
+	trail_particles.set_emitting(false)
+	# Cannot just change texture, previously emitted particles are updated as well
+	point_particles.set_emitting(true) 
 
 
 func give_point():
 	score_audio.play()
 	sprite_ref.hide()
+	point_particles.set_emitting(false)
 	SignalManager.gained_points.emit(BASE_SCORE)
 
 
