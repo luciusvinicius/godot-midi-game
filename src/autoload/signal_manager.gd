@@ -6,3 +6,4 @@ signal set_bpm(bpm)
 
 # -- || In-Game || --
 signal gained_points(quantity)
+signal hit_player
