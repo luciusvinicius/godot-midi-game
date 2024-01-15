@@ -434,22 +434,13 @@ func _read_track( input:StreamPeerBuffer, track_number:int ) -> MIDITrack:
 
 	return MIDITrack.new( track_number, events )
 
+#Custom code by prologgers
 func _add_to_duration_dict(time, channel, event):
 	match event.type:
 		MIDIEventType.note_on:
-			var note = {"value": event.note, "duration": time} # time just for temporary value
-			
-			# Create channel if doesn't exist and add the note to it
-			var note_durations = Global.note_durations
-			if not note_durations.has(channel):
-				note_durations[channel] = [note]
-			else:
-				note_durations[channel].append(note)
-		
+			Global.add_note_start({"value": event.note, "time": time}, channel)
 		MIDIEventType.note_off:
-			# Update duration from note
-			var note = Global.get_note_duration(event.note, channel, false, true)
-			note.duration = time - note.duration
+			Global.add_note_end({"value": event.note, "time": time}, channel)
 
 
 ## システムイベントか否かを返す

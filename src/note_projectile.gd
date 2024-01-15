@@ -16,7 +16,26 @@ var give_points := false
 const ACCELERATION_MULTIPLIER = 1.25
 
 
+
+
+# 230 speed ~= 383 midi duration
+# 460 speed ~= 192 midi duration
+var test_speed
+
+
+
+
+
+func calculate_speed(duration: int):
+	test_speed = (-1.204 * duration) + 691.204
+
+
 func _process(delta):
+	position += Vector2.UP * test_speed * delta # Direction has rotation of parent node in consideration
+
+
+
+""" func _process(delta):
 	speed += acceleration * delta
 	position += Vector2.UP * speed * delta # Direction has rotation of parent node in consideration
 	
@@ -28,7 +47,7 @@ func _process(delta):
 	elif speed < 0 and not give_points: turn_into_point()
 	
 	# Projectile hit the center --> ban
-	elif speed < -BASE_SPEED * max_speed * ACCELERATION_MULTIPLIER: queue_free()
+	elif speed < -BASE_SPEED * max_speed * ACCELERATION_MULTIPLIER: queue_free() """
 
 
 func _calculate_acceleration(new_initial_speed, new_max_speed, distance:= 250):

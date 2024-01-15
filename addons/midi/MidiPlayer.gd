@@ -416,6 +416,8 @@ func play( from_position:float = 0.0 ) -> void:
 		self.playing = false
 		return
 	self.playing = true
+	#Prologger code
+	Global.initialize_playback_durations()
 	if from_position == 0.0:
 		self.position = 0.0
 		self.track_status.event_pointer = 0
@@ -637,7 +639,8 @@ func _process_track( ) -> int:
 			SMF.MIDIEventType.note_on:
 				var event_note_on:SMF.MIDIEventNoteOn = event as SMF.MIDIEventNoteOn
 				self._process_track_event_note_on( channel, event_note_on.note, event_note_on.velocity )
-				SignalManager.note_on.emit(channel, event, event_note_on.note, event_note_on.velocity)
+				#Custom prologger signal
+				SignalManager.note_on.emit(channel.number, event_note_on.note, event_chunk.time)
 			SMF.MIDIEventType.program_change:
 				channel.program = ( event as SMF.MIDIEventProgramChange ).number
 			SMF.MIDIEventType.control_change:
