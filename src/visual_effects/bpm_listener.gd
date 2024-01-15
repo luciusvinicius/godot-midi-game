@@ -35,8 +35,8 @@ func _process(delta):
 	if bpm == 0.0 or not has_started: return
 	
 	# Convert to BPS and then make the amount of Beats / Second
-	var bps = bpm / 60
-	var beat_time = (1 / bps) * (4 / beats_per_shake) 
+	var bps = bpm / 60.0
+	var beat_time = (1 / bps) * (4.0 / beats_per_shake) 
 	time += delta
 	if time > beat_time :
 		shake()
