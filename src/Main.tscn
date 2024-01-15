@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=13 format=3 uid="uid://76r7ftga6s6m"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://dqfl218krqn7l" path="res://assets/imgs/background_solid.png" id="7_obfh2"]
 [ext_resource type="Texture2D" uid="uid://20ileqajublo" path="res://assets/imgs/background_dots.png" id="8_l8igh"]
 [ext_resource type="PackedScene" uid="uid://dltchrbvnx74c" path="res://src/hud/hud.tscn" id="8_rrypj"]
-[ext_resource type="PackedScene" uid="uid://cudnyvc3w2lpr" path="res://src/ProjectileBlock.tscn" id="12_05aqj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m2vh6"]
 shader = ExtResource("5_8bf1v")
@@ -73,55 +72,5 @@ one_shot = true
 autostart = true
 
 [node name="HUD" parent="." instance=ExtResource("8_rrypj")]
-
-[node name="ProjectileBlocks" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0)
-
-[node name="ProjectileBlock" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(965, 68)
-
-[node name="ProjectileBlock2" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(1154, 114)
-rotation = 0.394663
-
-[node name="ProjectileBlock3" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(1359, 286)
-rotation = 0.95852
-
-[node name="ProjectileBlock4" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(1429, 531)
-rotation = 1.55501
-
-[node name="ProjectileBlock5" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(1369, 761)
-rotation = 2.09426
-
-[node name="ProjectileBlock6" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(1207, 939)
-rotation = 2.65646
-
-[node name="ProjectileBlock7" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(964, 1013)
-rotation = 3.1398
-
-[node name="ProjectileBlock8" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(740, 953)
-rotation = -2.59427
-
-[node name="ProjectileBlock9" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(540, 750)
-rotation = -2.00834
-
-[node name="ProjectileBlock10" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(493, 545)
-rotation = -1.55361
-
-[node name="ProjectileBlock11" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(558, 304)
-rotation = -1.08116
-
-[node name="ProjectileBlock12" parent="ProjectileBlocks" instance=ExtResource("12_05aqj")]
-position = Vector2(754, 121)
-rotation = -0.466809
 
 [connection signal="timeout" from="SongDelay" to="." method="_on_song_delay_timeout"]
