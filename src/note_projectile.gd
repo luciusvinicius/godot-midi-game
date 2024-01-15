@@ -1,5 +1,6 @@
 extends Node2D
 
+const CIRCLE_LENGTH = 390
 const BASE_SCORE = 100
 const BASE_SPEED = 800
 const INITIAL_SPEED_RATE = 0.75 # % of final speed (0.75 looks good)
@@ -12,10 +13,10 @@ var give_points := false
 # Cosine movement (rads)
 #@onready var initial_speed = INITIAL_SPEED_RATE * BASE_SPEED * max_speed
 #@onready var acceleration = _calculate_acceleration(initial_speed, BASE_SPEED * max_speed)
-var acceleration
+var acceleration := 0.0
 const ACCELERATION_MULTIPLIER = 1.25
 var initial_speed := 100.0
-@onready var speed := initial_speed
+#@onready var speed := initial_speed
 
 
 
@@ -30,27 +31,33 @@ func setup(duration):
 	max_speed = _get_max_speed(new_duration)
 	print(acceleration)
 
-#func calculate_speed(duration: int):
-	#test_speed = (-1.204 * duration) + 691.204
-
-func _process(delta):
-	speed += acceleration * delta
-	position += Vector2.UP * speed * delta # Direction has rotation of parent node in consideration
-	
-	## Invert when passed center
-	#if speed > max_speed * BASE_SPEED:
-		#acceleration *= -ACCELERATION_MULTIPLIER
-	#
-	## Convert to a point before starting to go back
-	#elif speed < 0 and not give_points: turn_into_point()
-	#
-	## Projectile hit the center --> ban
-	#elif speed < -BASE_SPEED * max_speed * ACCELERATION_MULTIPLIER: queue_free() 
+func calculate_speed(duration: int):
+	test_speed = (-1.204 * duration) + 660
 
 #func _process(delta):
-	#position += Vector2.UP * test_speed * delta # Direction has rotation of parent node in consideration
+	#speed += acceleration * delta
+	#position += Vector2.UP * speed * delta # Direction has rotation of parent node in consideration
+	#
 
 
+func _process(delta):
+	test_speed += acceleration * delta
+	position += Vector2.UP * test_speed * delta # Direction has rotation of parent node in consideration
+	
+	# When cross the line
+	if position.y < -CIRCLE_LENGTH and acceleration == 0:
+		acceleration = -_calculate_acceleration(test_speed)
+		#queue_free()
+	
+	# Convert to a point before starting to go back
+	elif test_speed < 0 and not give_points: turn_into_point()
+	
+	# Projectile hit the center --> ban
+	elif position.y > -100 and acceleration != 0: queue_free()
+	
+
+func _calculate_acceleration(speed):
+	return speed # Have no idea why this works perfectly, but we take those
 
 """ func _process(delta):
 	speed += acceleration * delta
@@ -68,10 +75,6 @@ func _process(delta):
 
 
 # --- || Formulas || ---
-
-func _calculate_acceleration(new_initial_speed, new_max_speed, distance:= 250):
-	# Calculate the acceleration based on Torricelli's formula
-	return (new_max_speed**2 - new_initial_speed**2) / (2.0 * distance)
 
 func _get_acceleration(time, distance:=250.0):
 	# Using formula from accelerated movement a = 2(S - Vot) / t², if So == 0:

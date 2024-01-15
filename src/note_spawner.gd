@@ -43,6 +43,6 @@ func shoot():
 func insta_shoot(duration: int):
 	var note = note_scene.instantiate()
 	note.position = position + Vector2.UP * SPAWN_OFFSET
-	#note.calculate_speed(duration)
-	note.setup(duration)
+	note.calculate_speed(duration)
+	#note.setup(duration)
 	add_child(note)
