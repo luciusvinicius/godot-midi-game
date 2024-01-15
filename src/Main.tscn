@@ -1,16 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=15 format=3 uid="uid://76r7ftga6s6m"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
 [ext_resource type="VideoStream" path="res://assets/sounds/howls_moving_castle.ogv" id="2_5j6qq"]
-[ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/sounds/Deltarune-Orchestral-edited.mp3" id="4_a4mb3"]
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
+[ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/sounds/Deltarune-Orchestral-edited.mp3" id="4_yi8gi"]
 [ext_resource type="Shader" path="res://src/visual_effects/vignette_noisy.gdshader" id="5_8bf1v"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
 [ext_resource type="Texture2D" uid="uid://c88lfmglvo6dh" path="res://assets/imgs/noise.png" id="6_jltfv"]
 [ext_resource type="Texture2D" uid="uid://dqfl218krqn7l" path="res://assets/imgs/background_solid.png" id="7_obfh2"]
 [ext_resource type="Texture2D" uid="uid://20ileqajublo" path="res://assets/imgs/background_dots.png" id="8_l8igh"]
 [ext_resource type="PackedScene" uid="uid://dltchrbvnx74c" path="res://src/hud/hud.tscn" id="8_rrypj"]
+[ext_resource type="PackedScene" uid="uid://dcye1u0sqmgt8" path="res://src/visual_effects/ScreenShake.tscn" id="12_5h8sy"]
+[ext_resource type="PackedScene" uid="uid://qnl0vr1a1qle" path="res://src/visual_effects/bpm_listener.tscn" id="13_d31bq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m2vh6"]
 shader = ExtResource("5_8bf1v")
@@ -49,7 +51,7 @@ file = "res://assets/sounds/the-world-revolving.mid"
 volume_db = -80.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_a4mb3")
+stream = ExtResource("4_yi8gi")
 
 [node name="Background" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_m2vh6")
@@ -73,4 +75,12 @@ autostart = true
 
 [node name="HUD" parent="." instance=ExtResource("8_rrypj")]
 
+[node name="Others" type="Node" parent="."]
+
+[node name="ScreenShake" parent="Others" instance=ExtResource("12_5h8sy")]
+
+[node name="BPMListener" parent="Others" node_paths=PackedStringArray("screen_shake") instance=ExtResource("13_d31bq")]
+screen_shake = NodePath("../ScreenShake")
+
 [connection signal="timeout" from="SongDelay" to="." method="_on_song_delay_timeout"]
+[connection signal="timeout" from="SongDelay" to="Others/BPMListener" method="_on_song_delay_timeout"]
