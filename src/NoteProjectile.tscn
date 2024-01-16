@@ -16,11 +16,17 @@ curve = SubResource("Curve_w3fgf")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_56nm5"]
 particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
+emission_shape_offset = Vector3(0, -2.51, 0)
+emission_shape = 1
+emission_sphere_radius = 8.0
+angle_max = 360.0
+gravity = Vector3(0, -98, 0)
 linear_accel_min = 20.0
 linear_accel_max = 20.0
 scale_max = 3.0
 alpha_curve = SubResource("CurveTexture_hn32f")
+turbulence_enabled = true
+turbulence_influence_min = 0.0
 
 [sub_resource type="Curve" id="Curve_fxei1"]
 _data = [Vector2(0, 0.848249), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -57,12 +63,6 @@ scale = Vector2(4, 4)
 process_material = SubResource("ParticleProcessMaterial_56nm5")
 texture = ExtResource("2_cnato")
 
-[node name="PointParticles" type="GPUParticles2D" parent="."]
-scale = Vector2(4, 4)
-emitting = false
-process_material = SubResource("ParticleProcessMaterial_56nm5")
-texture = ExtResource("3_u4sth")
-
 [node name="ExplosionParticles" type="GPUParticles2D" parent="."]
 emitting = false
 amount = 16
@@ -75,6 +75,13 @@ explosiveness = 0.75
 modulate = Color(1, 1, 1, 0.784314)
 scale = Vector2(5, 5)
 texture = ExtResource("2_cnato")
+
+[node name="PointParticles" type="GPUParticles2D" parent="."]
+scale = Vector2(4, 4)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_56nm5")
+texture = ExtResource("3_u4sth")
+explosiveness = 0.2
 
 [node name="Area" type="Area2D" parent="."]
 

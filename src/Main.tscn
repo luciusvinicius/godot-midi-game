@@ -79,8 +79,7 @@ autostart = true
 
 [node name="ScreenShake" parent="Others" instance=ExtResource("12_5h8sy")]
 
-[node name="BPMListener" parent="Others" node_paths=PackedStringArray("screen_shake") instance=ExtResource("13_d31bq")]
-screen_shake = NodePath("../ScreenShake")
+[node name="BPMListener" parent="Others" instance=ExtResource("13_d31bq")]
 
 [connection signal="timeout" from="SongDelay" to="." method="_on_song_delay_timeout"]
 [connection signal="timeout" from="SongDelay" to="Others/BPMListener" method="_on_song_delay_timeout"]

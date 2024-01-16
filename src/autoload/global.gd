@@ -9,9 +9,11 @@ var early_note_durations := {} # struct that keeps note_ons
 var note_durations := {} # final struct after MIDI is parsed, already with note durations
 var playback_note_durations := {} # copy of durations to be managed during MIDI play
 const BIGGEST_DURATION = 384.0
+const TICKS_PER_BEAT := 2
 
 # Game information
 var score := 0
+var bpm # Any class can access this
 
 
 # --- || Struct Management || ---
@@ -85,29 +87,5 @@ func get_note_duration(channel: int, note : int, time: int):
 	playback_note_durations[channel].remove_at(note_idx)
 
 	return duration
-
-
-""" func get_note_duration(specific_note: int, channel: int, delete_note := true, reversed := false) -> Dictionary:
-	var channel_notes : Array = note_durations[channel]
-
-	# Get notes with correct value
-	var possible_notes : Array = channel_notes.filter(func(note): return note.value == specific_note)
-	
-	if possible_notes.size() == 0: 
-		push_error("Note %d not existent in channel %d." % [specific_note, channel])
-		return {}
-	var ret
-	
-	if reversed: 
-		ret = possible_notes[-1]
-	else: 
-		ret = possible_notes[0]
-	
-	# Delete note from possible_notes if wanted
-	if delete_note:
-		var note_idx = channel_notes.find(ret)
-		channel_notes.remove_at(note_idx)
-	return ret """
-	
 
 
