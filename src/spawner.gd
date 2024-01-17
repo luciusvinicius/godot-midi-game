@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var outer_circle = $OuterCircle
 var note_spawners
-var midi_channels_to_process = [0,1]
+var midi_channels_to_process = [0,1,2]
 
 # -- || Test || --
 #var MAX_NOTES = 1
