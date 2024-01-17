@@ -3,9 +3,11 @@ extends Node2D
 const CIRCLE_LENGTH = 400
 const BASE_SCORE = 100
 var SPAWN_OFFSET
-@onready var sprite : Sprite2D = $Sprite
+@onready var sprite : Sprite2D = $Object/Sprite
 @onready var trail_particles = $TrailParticles
 @onready var explode_audio = $ExplodeAudio
+@onready var object = $Object
+
 
 # 230 speed ~= 383 midi duration
 # 460 speed ~= 192 midi duration
@@ -37,27 +39,30 @@ func calculate_speed(duration: int):
 
 func _process(delta):
 	if is_point: 
-		_point_process(delta)
+		#_point_process(delta)
 		return
 	
 	position += Vector2.UP * speed * delta # Direction has rotation of parent node in consideration
 	
 	# When cross the line
 	if position.y < -CIRCLE_LENGTH:
-		position.y = -CIRCLE_LENGTH
-		turn_into_point()
+		queue_free()
+		#position.y = -CIRCLE_LENGTH
+		#turn_into_point()
 	
+	else:
+		object.scale += speed * Vector2.ONE * 0.0001
 
-func _point_process(delta):
-	angle += ANGLE_RATE * delta * angle_direction
-	sprite.rotation = angle
-	
-	# Particle angle
-	var particle_angle = -angle + PARTICLE_ANGLE_OFFSET
-	point_particles.process_material.angle_min = rad_to_deg(particle_angle)
-	point_particles.process_material.angle_max = rad_to_deg(particle_angle)
-	
-	position = ang2pos(angle)
+#func _point_process(delta):
+	#angle += ANGLE_RATE * delta * angle_direction
+	#sprite.rotation = angle
+	#
+	## Particle angle
+	#var particle_angle = -angle + PARTICLE_ANGLE_OFFSET
+	#point_particles.process_material.angle_min = rad_to_deg(particle_angle)
+	#point_particles.process_material.angle_max = rad_to_deg(particle_angle)
+	#
+	#position = ang2pos(angle)
 
 # --- || Points || ---
 

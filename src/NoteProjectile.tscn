@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bjfi30ohqtuaq"]
+[gd_scene load_steps=22 format=3 uid="uid://bjfi30ohqtuaq"]
 
 [ext_resource type="Script" path="res://src/note_projectile.gd" id="1_5phnt"]
 [ext_resource type="Texture2D" uid="uid://dtf6ei4hpcrcy" path="res://assets/imgs/small_bullet.png" id="2_cnato"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dsahau6pn6fso" path="res://assets/imgs/explosion-particle.png" id="4_ejh8f"]
 [ext_resource type="Texture2D" uid="uid://dtje0w02qxjjy" path="res://assets/imgs/small_bullet_aura.png" id="4_lkr5b"]
 [ext_resource type="AudioStream" uid="uid://du41w67j4lo0h" path="res://assets/sounds/explosion.mp3" id="5_epptw"]
+[ext_resource type="Texture2D" uid="uid://cgi27vvoly01h" path="res://assets/imgs/wide_bullet2.png" id="5_wy0i4"]
 
 [sub_resource type="Curve" id="Curve_3ngme"]
 _data = [Vector2(0, 0.74525), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -83,8 +84,9 @@ scale_curve = SubResource("CurveTexture_kx24a")
 alpha_curve = SubResource("CurveTexture_hn32f")
 turbulence_influence_min = 0.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_15bxd"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7apbe"]
 radius = 16.0
+height = 80.0
 
 [node name="NoteProjectile" type="Node2D" groups=["projectile"]]
 script = ExtResource("1_5phnt")
@@ -109,15 +111,19 @@ amount = 1
 process_material = SubResource("ParticleProcessMaterial_56nm5")
 texture = ExtResource("4_lkr5b")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Object" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Object"]
 modulate = Color(1, 1, 1, 0.784314)
 scale = Vector2(5, 5)
-texture = ExtResource("2_cnato")
+texture = ExtResource("5_wy0i4")
 
-[node name="Area" type="Area2D" parent="."]
+[node name="Area" type="Area2D" parent="Object"]
 
-[node name="Collision" type="CollisionShape2D" parent="Area"]
-shape = SubResource("CircleShape2D_15bxd")
+[node name="Collision" type="CollisionShape2D" parent="Object/Area"]
+position = Vector2(0, -16)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_7apbe")
 
 [node name="ScoreAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_x5y02")
@@ -126,4 +132,4 @@ stream = ExtResource("3_x5y02")
 stream = ExtResource("5_epptw")
 volume_db = 10.0
 
-[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]
+[connection signal="area_entered" from="Object/Area" to="." method="_on_area_area_entered"]
