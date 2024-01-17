@@ -1,30 +1,37 @@
-[gd_scene load_steps=14 format=3 uid="uid://bjfi30ohqtuaq"]
+[gd_scene load_steps=21 format=3 uid="uid://bjfi30ohqtuaq"]
 
 [ext_resource type="Script" path="res://src/note_projectile.gd" id="1_5phnt"]
 [ext_resource type="Texture2D" uid="uid://dtf6ei4hpcrcy" path="res://assets/imgs/small_bullet.png" id="2_cnato"]
-[ext_resource type="Texture2D" uid="uid://bgjv5hivmmh5p" path="res://assets/imgs/small_bullet-points.png" id="3_u4sth"]
 [ext_resource type="AudioStream" uid="uid://ri3iny3nag0w" path="res://assets/sounds/gain_score.mp3" id="3_x5y02"]
 [ext_resource type="Texture2D" uid="uid://dsahau6pn6fso" path="res://assets/imgs/explosion-particle.png" id="4_ejh8f"]
+[ext_resource type="Texture2D" uid="uid://dtje0w02qxjjy" path="res://assets/imgs/small_bullet_aura.png" id="4_lkr5b"]
 [ext_resource type="AudioStream" uid="uid://du41w67j4lo0h" path="res://assets/sounds/explosion.mp3" id="5_epptw"]
 
-[sub_resource type="Curve" id="Curve_w3fgf"]
-_data = [Vector2(0, 0.532101), 0.0, 0.0, 0, 0, Vector2(0.847716, 0.33609), -0.724726, -0.724726, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="Curve" id="Curve_3ngme"]
+_data = [Vector2(0, 0.74525), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_hn32f"]
-curve = SubResource("Curve_w3fgf")
+[sub_resource type="CurveTexture" id="CurveTexture_guqip"]
+curve = SubResource("Curve_3ngme")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_56nm5"]
+[sub_resource type="Curve" id="Curve_gbos7"]
+max_value = 3.0
+_data = [Vector2(0, 2.35154), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ra2e0"]
+curve = SubResource("Curve_gbos7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_omk20"]
 particle_flag_disable_z = true
-emission_shape_offset = Vector3(0, -2.51, 0)
-emission_shape = 1
-emission_sphere_radius = 8.0
-angle_max = 360.0
-gravity = Vector3(0, -98, 0)
+inherit_velocity_ratio = 0.1
+gravity = Vector3(0, 0, 0)
 linear_accel_min = 20.0
 linear_accel_max = 20.0
-scale_max = 3.0
-alpha_curve = SubResource("CurveTexture_hn32f")
+radial_accel_min = 26.67
+radial_accel_max = 26.67
+scale_curve = SubResource("CurveTexture_ra2e0")
+alpha_curve = SubResource("CurveTexture_guqip")
 turbulence_enabled = true
 turbulence_influence_min = 0.0
 
@@ -52,6 +59,30 @@ alpha_curve = SubResource("CurveTexture_ddysx")
 turbulence_enabled = true
 turbulence_noise_strength = 4.96
 
+[sub_resource type="Curve" id="Curve_w3fgf"]
+_data = [Vector2(0, 0.532101), 0.0, 0.0, 0, 0, Vector2(0.847716, 0.33609), -0.724726, -0.724726, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_hn32f"]
+curve = SubResource("Curve_w3fgf")
+
+[sub_resource type="Curve" id="Curve_vorpw"]
+max_value = 12.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 12), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kx24a"]
+curve = SubResource("Curve_vorpw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_56nm5"]
+particle_flag_disable_z = true
+inherit_velocity_ratio = 1.0
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_kx24a")
+alpha_curve = SubResource("CurveTexture_hn32f")
+turbulence_influence_min = 0.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_15bxd"]
 radius = 16.0
 
@@ -60,7 +91,7 @@ script = ExtResource("1_5phnt")
 
 [node name="TrailParticles" type="GPUParticles2D" parent="."]
 scale = Vector2(4, 4)
-process_material = SubResource("ParticleProcessMaterial_56nm5")
+process_material = SubResource("ParticleProcessMaterial_omk20")
 texture = ExtResource("2_cnato")
 
 [node name="ExplosionParticles" type="GPUParticles2D" parent="."]
@@ -71,17 +102,17 @@ texture = ExtResource("4_ejh8f")
 one_shot = true
 explosiveness = 0.75
 
+[node name="PointParticles" type="GPUParticles2D" parent="."]
+scale = Vector2(4, 4)
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_56nm5")
+texture = ExtResource("4_lkr5b")
+
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.784314)
 scale = Vector2(5, 5)
 texture = ExtResource("2_cnato")
-
-[node name="PointParticles" type="GPUParticles2D" parent="."]
-scale = Vector2(4, 4)
-emitting = false
-process_material = SubResource("ParticleProcessMaterial_56nm5")
-texture = ExtResource("3_u4sth")
-explosiveness = 0.2
 
 [node name="Area" type="Area2D" parent="."]
 

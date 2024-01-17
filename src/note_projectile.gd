@@ -20,12 +20,14 @@ const trail_point_texture = preload("res://assets/imgs/small_bullet-points.png")
 
 # -- || Animation || --
 const COLOR_CHANGE_DURATION := 0.5
-const NUMBER_BEATS_ALIVE := 2
-var beat_scale := 0.5 * Vector2.ONE
+const NUMBER_BEATS_ALIVE := 4
+var beat_scale := 0.0 * Vector2.ONE
 var number_beats := 0
 var angle := 0.0
 const ANGLE_RATE := 0.2
 @onready var angle_direction = [-1, 1].pick_random()
+
+const PARTICLE_ANGLE_OFFSET := 90
 
 func _ready():
 	SignalManager.tick_played.connect(process_tick)
@@ -48,6 +50,13 @@ func _process(delta):
 
 func _point_process(delta):
 	angle += ANGLE_RATE * delta * angle_direction
+	sprite.rotation = angle
+	
+	# Particle angle
+	var particle_angle = -angle + PARTICLE_ANGLE_OFFSET
+	point_particles.process_material.angle_min = rad_to_deg(particle_angle)
+	point_particles.process_material.angle_max = rad_to_deg(particle_angle)
+	
 	position = ang2pos(angle)
 
 # --- || Points || ---
@@ -58,8 +67,9 @@ func turn_into_point():
 	speed = 0
 	
 	# Cannot just change texture, previously emitted particles are updated as well
-	point_particles.set_emitting(true) 
-	
+	var tick_time = 2 / (Global.bpm / 60) # Wrong time apparently, calculate correctly
+	point_particles.set_lifetime(tick_time)
+
 	# Tween animation to change color and flutuation
 	var color_tween:Tween = create_tween()
 	color_tween.tween_property(sprite, "modulate", Color.AQUA, COLOR_CHANGE_DURATION)
@@ -72,16 +82,14 @@ func give_point():
 	
 
 func process_tick(_is_main_tick):
-	if not is_point: return
-	
+	if not is_point or not sprite.visible: return
+	point_particles.set_emitting(true) 
 	var tick_time = 2 / (Global.bpm / 60) # Wrong time apparently, calculate correctly
 	
 	# Check if note is long enough to make it disappear
 	number_beats += 1
 	if number_beats >= NUMBER_BEATS_ALIVE:
 		var hide_tween:Tween = create_tween()
-		point_particles.set_emitting(false)
-		
 		hide_tween.tween_property(self, "modulate", Color.TRANSPARENT, \
 		tick_time).set_trans(Tween.TRANS_CUBIC)
 		hide_tween.tween_callback(queue_free) # Kill object at the end of animation
