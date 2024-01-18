@@ -91,6 +91,7 @@ script = ExtResource("1_5phnt")
 
 [node name="TrailParticles" type="GPUParticles2D" parent="."]
 scale = Vector2(4, 4)
+emitting = false
 process_material = SubResource("ParticleProcessMaterial_omk20")
 texture = ExtResource("2_cnato")
 
@@ -126,4 +127,5 @@ stream = ExtResource("3_x5y02")
 stream = ExtResource("5_epptw")
 volume_db = 10.0
 
+[connection signal="finished" from="ExplosionParticles" to="." method="_on_explosion_particles_finished"]
 [connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]
