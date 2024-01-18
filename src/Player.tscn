@@ -66,6 +66,7 @@ progress = 1254.48
 
 [node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D"]
 modulate = Color(1, 1, 1, 0.784314)
+rotation = 0.0959931
 scale = Vector2(6, 6)
 texture = ExtResource("2_dj3pf")
 
@@ -79,3 +80,4 @@ shape = SubResource("RectangleShape2D_ftu0x")
 amount = 12
 process_material = SubResource("ParticleProcessMaterial_cyg5b")
 texture = ExtResource("5_k5601")
+lifetime = 0.5
