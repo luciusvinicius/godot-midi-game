@@ -130,8 +130,9 @@ func _on_area_area_entered(area):
 	var player = area.owner
 	if player.name != "Player" or not sprite.visible or player.is_stunned: return
 	
-	if is_point:
+	if is_point or player.is_invencible:
+		# Invencible player get the point instead
 		give_point()
-	elif not player.is_invencible:
+	else:
 		damage_player()
 	
