@@ -32,6 +32,8 @@ const ANGLE_RATE := 0.2
 
 const PARTICLE_ANGLE_OFFSET := 90
 
+# -- || Menu Vars || --
+var is_menu := false
 
 func _ready():
 	SignalManager.tick_played.connect(on_tick)
@@ -39,10 +41,11 @@ func _ready():
 	sprite.modulate = color_ref
 
 
-func init_vars(spawn_offset: int, new_duration: int, new_color: Color):
+func init_vars(spawn_offset: int, new_duration: int, new_color: Color, menu_bullet: bool):
 	position = position + Vector2.UP * spawn_offset
 	color_ref = new_color
 	speed = (-1.204 * new_duration) + 691.204
+	is_menu = menu_bullet
 
 
 func _process(delta):
@@ -53,7 +56,7 @@ func _process(delta):
 	position += Vector2.UP * speed * delta # Direction has rotation of parent node in consideration
 	
 	# When cross the line
-	if position.y < -CIRCLE_LENGTH:
+	if position.y < -CIRCLE_LENGTH and not is_menu:
 		position.y = -CIRCLE_LENGTH
 		turn_into_point()
 
@@ -109,8 +112,9 @@ func on_tick(_is_main_tick):
 
 # -- || Damage || --
 
-func hit_player():
-	SignalManager.hit_player.emit(DAMAGE)
+func hit_player(menu_hit:=false):
+	if not menu_hit:
+		SignalManager.hit_player.emit(DAMAGE)
 	explosion_particles.set_emitting(true)
 	explode_audio.play()
 	trail_particles.set_emitting(false)
@@ -131,12 +135,13 @@ func ang2pos(ang:float):
 
 func _on_area_area_entered(area):
 	var player = area.owner
-	if player.name != "Player" or not sprite.visible: return
+	if player.name != "Player" or not sprite.visible or player.is_stunned: return
 	
-	if is_point:
+	if is_point or player.is_invencible:
+		# Invencible player get the point instead
 		give_point()
 	else:
-		hit_player()
+		hit_player(is_menu)
 	
 
 func _on_explosion_particles_finished():

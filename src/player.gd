@@ -4,10 +4,11 @@ extends Node2D
 @onready var path : PathFollow2D = $Path2D/PathFollow2D
 @onready var trail_particles : GPUParticles2D = $Path2D/PathFollow2D/Sprite2D/TrailParticles
 @onready var timer_ref : Timer = $RegenTimer
+@onready var animation : AnimationPlayer = $Path2D/PathFollow2D/Sprite2D/Animation
 
 # -- || Vars || --
 @export var speed := 1
-@export var regen_ammount := 0.3
+@export var regen_ammount := 0.1
 @export var max_health := 30.0
 @onready var health := max_health:
 	set(val):
@@ -37,18 +38,21 @@ var direction_input := 0
 @onready var goal_position := float(grid_position) / GRID_POSITIONS
 @onready var curve_progress := goal_position * Vector2.RIGHT # Vector with only x value. Used due to move_toward method
 
+# -- || Damage Vars || --
+var is_invencible := false
+var is_stunned := false
+const POINT_PENALTY := 500
+
 
 func _ready():
 	SignalManager.hit_player.connect(receive_player_damage)
+	SignalManager.start_game.connect(on_start)
 	background_ref = get_parent().find_child("Background")
-
-	var my_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-	my_tween.tween_method(set_mask_radius.bind(background_ref), mask_radius, max_mask, 1.0)
 
 
 func _physics_process(delta):
 	
-	if is_equal_approx(curve_progress.x, goal_position):
+	if is_equal_approx(curve_progress.x, goal_position) and not is_stunned:
 		# Cannot hold input
 		direction_input = int(Input.is_action_just_pressed("mov_left")) - int(Input.is_action_just_pressed("mov_right"))
 		grid_position += direction_input % GRID_POSITIONS
@@ -61,6 +65,12 @@ func _physics_process(delta):
 	path.progress_ratio = curve_progress.x
 
 
+func set_invencibility(val : bool):
+	is_invencible = val
+
+
+func set_stun(val:bool):
+	is_stunned = val
 # --- || Video Reveal Shader || ---
 	
 func set_mask_radius(new_radius: float, sprite_ref: Sprite2D):
@@ -69,10 +79,22 @@ func set_mask_radius(new_radius: float, sprite_ref: Sprite2D):
 
 # -- || Signal Callback || --
 
+func on_start():
+	# Reveal video
+	var my_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	my_tween.tween_method(set_mask_radius.bind(background_ref), mask_radius, max_mask, 1.0)
+
 func receive_player_damage(damage : int):
 	health -= damage
+	set_mask_radius(mask_radius, background_ref)
+	SignalManager.gained_points.emit(-POINT_PENALTY)
+	animation.play("take_damage")
 
 
 func _on_regen_timer_timeout():
-	health += regen_ammount
-	set_mask_radius(mask_radius, background_ref)
+	if !is_invencible:
+		print("regen")
+		health += regen_ammount
+		set_mask_radius(mask_radius, background_ref)
+		
+	

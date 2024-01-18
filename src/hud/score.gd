@@ -10,7 +10,7 @@ func _ready():
 
 
 func gain_points(quantity):
-	Global.score += quantity
+	Global.score = max(Global.score + quantity, 0)
 	label.text = "Score: %d" % Global.score
 
 func scale_on_beat(_is_main_tick):
