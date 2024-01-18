@@ -5,22 +5,22 @@ extends Control
 @onready var start = $Start
 @onready var quit = $Quit
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 func _on_start_area_entered(area):
+	if not area.owner.sprite.visible: return
 	animation.play("start_game")
 	await animation.animation_finished
 	start.hide()
 	quit.hide()
 	SignalManager.start_game.emit()
+
 func _on_quit_area_entered(area):
-	pass # Replace with function body.
+	if not area.owner.sprite.visible: return
+	animation.play("quit_game")
+	await animation.animation_finished
+	get_tree().quit()
+
+
+func _on_end_game_delay_timeout():
+	start.show()
+	quit.show()
+	animation.play("reappear")

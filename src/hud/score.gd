@@ -7,7 +7,11 @@ const BEAT_SCALE := 1.1
 func _ready():
 	SignalManager.gained_points.connect(gain_points)
 	SignalManager.tick_played.connect(scale_on_beat)
+	SignalManager.start_game.connect(start_game)
 
+func start_game():
+	Global.score = 0
+	gain_points(0)
 
 func gain_points(quantity):
 	Global.score = max(Global.score + quantity, 0)

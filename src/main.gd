@@ -4,6 +4,7 @@ extends Node
 @onready var midi_player : MidiPlayer = $MidiPlayer
 @onready var audio_player : AudioStreamPlayer = $AudioStreamPlayer
 @onready var song_delay = $SongDelay
+@onready var end_game_delay = $MainMenu/EndGameDelay
 
 ### Menu
 @onready var player = $Player
@@ -19,14 +20,18 @@ var my_tween
 
 
 func _ready():
-	SignalManager.start_game.connect(start)
+	SignalManager.start_game.connect(start_game)
 	#start()
 
-func start():
+func start_game():
 	menu_bullet_timer.one_shot = true
 	menu_bullet_timer.stop()
 	midi_player.play()
 	song_delay.start()
+
+func end_game():
+	menu_bullet_timer.start()
+	menu_bullet_timer.one_shot = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -70,3 +75,9 @@ func _on_song_delay_timeout():
 
 func _on_menu_bullet_timer_timeout():
 	spawner.menu_prepare_shot(player.grid_position)
+
+func _on_midi_player_finished():
+	end_game_delay.start()
+
+func _on_end_game_delay_timeout():
+	end_game()
