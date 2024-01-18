@@ -128,10 +128,10 @@ func ang2pos(ang:float):
 
 func _on_area_area_entered(area):
 	var player = area.owner
-	if player.name != "Player" or not sprite.visible: return
+	if player.name != "Player" or not sprite.visible or player.is_stunned: return
 	
 	if is_point:
 		give_point()
-	else:
+	elif not player.is_invencible:
 		damage_player()
 	
