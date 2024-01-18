@@ -60,8 +60,9 @@ texture = ExtResource("4_wci08")
 curve = ExtResource("3_udphw")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(0, -400)
-rotation = 0.102207
+position = Vector2(-0.000607159, 400)
+rotation = 3.03942
+progress = 1254.48
 
 [node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D"]
 modulate = Color(1, 1, 1, 0.784314)

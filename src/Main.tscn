@@ -64,9 +64,6 @@ centered = false
 
 [node name="Player" parent="." instance=ExtResource("5_ji33x")]
 position = Vector2(960, 540)
-speed = 1
-acceleration = 100
-friction = 50
 
 [node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
 position = Vector2(960, 540)

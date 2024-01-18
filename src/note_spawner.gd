@@ -40,9 +40,10 @@ func shoot():
 	add_child(note)
 
 
-func insta_shoot(duration: int):
+func insta_shoot(duration: int, color: Color):
 	var note = note_scene.instantiate()
 	note.position = position + Vector2.UP * SPAWN_OFFSET
 	note.SPAWN_OFFSET = SPAWN_OFFSET
+	note.color = color
 	note.calculate_speed(duration)
 	add_child(note)

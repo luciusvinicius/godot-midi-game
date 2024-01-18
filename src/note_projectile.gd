@@ -7,6 +7,8 @@ var SPAWN_OFFSET
 @onready var trail_particles = $TrailParticles
 @onready var explode_audio = $ExplodeAudio
 
+var color : Color = Color.WHITE
+
 # 230 speed ~= 383 midi duration
 # 460 speed ~= 192 midi duration
 var speed
@@ -31,6 +33,7 @@ const PARTICLE_ANGLE_OFFSET := 90
 
 func _ready():
 	SignalManager.tick_played.connect(process_tick)
+	sprite.modulate = color
 
 func calculate_speed(duration: int):
 	speed = (-1.204 * duration) + 691.204
