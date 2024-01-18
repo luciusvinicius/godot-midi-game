@@ -15,13 +15,16 @@ var PLAYER_HIT_INTENSITY_MULTIPLIER := 7.5
 # -- || BPM Vars || --
 const COMPASS_SHAKE_MULTIPLIER = 2.5
 
+
 func _ready():
-	SignalManager.hit_player.connect(receive_player_damage)
+	SignalManager.hit_player.connect(on_player_hit)
 	SignalManager.tick_played.connect(bpm_shake)
+
 
 func shake(intensity:=INTENSITY, time:=TIME): # time in seconds
 	strength = intensity
 	decrease_ratio = intensity / time
+
 
 func bpm_shake(is_main_tick:bool):
 	var shake_intensity
@@ -31,8 +34,10 @@ func bpm_shake(is_main_tick:bool):
 		shake_intensity = INTENSITY
 	# shake(shake_intensity) <-- Annoying
 
-func receive_player_damage():
+
+func on_player_hit(damage):
 	shake(INTENSITY*PLAYER_HIT_INTENSITY_MULTIPLIER)
+
 
 func _process(delta):
 	strength = max(strength - delta * decrease_ratio, 0); # - delta * NUMBER --> ratio of shake to stop

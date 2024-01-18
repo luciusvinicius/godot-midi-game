@@ -2,10 +2,12 @@ extends Node2D
 
 const CIRCLE_LENGTH = 400
 const BASE_SCORE = 100
+const DAMAGE = 10
 
 @onready var sprite : Sprite2D = $Sprite
 @onready var trail_particles = $TrailParticles
 @onready var explode_audio = $ExplodeAudio
+@onready var col_ref = $Area/Collision
 
 var color_ref : Color = Color.WHITE
 
@@ -15,7 +17,6 @@ var speed
 
 # -- || Points Vars || --
 var is_point := false
-const trail_point_texture = preload("res://assets/imgs/small_bullet-points.png")
 @onready var point_particles : GPUParticles2D = $PointParticles
 @onready var explosion_particles : GPUParticles2D = $ExplosionParticles
 @onready var score_audio = $ScoreAudio
@@ -33,7 +34,8 @@ const PARTICLE_ANGLE_OFFSET := 90
 
 
 func _ready():
-	SignalManager.tick_played.connect(process_tick)
+	SignalManager.tick_played.connect(on_tick)
+	trail_particles.set_emitting(true)
 	sprite.modulate = color_ref
 
 
@@ -54,7 +56,7 @@ func _process(delta):
 	if position.y < -CIRCLE_LENGTH:
 		position.y = -CIRCLE_LENGTH
 		turn_into_point()
-	
+
 
 func _point_process(delta):
 	angle += ANGLE_RATE * delta * angle_direction
@@ -90,8 +92,9 @@ func give_point():
 	point_particles.set_emitting(false)
 	
 
-func process_tick(_is_main_tick):
+func on_tick(_is_main_tick):
 	if not is_point or not sprite.visible: return
+
 	point_particles.set_emitting(true) 
 	var tick_time = Global.get_tick_time()
 	
@@ -99,32 +102,32 @@ func process_tick(_is_main_tick):
 	number_beats += 1
 	if number_beats >= NUMBER_BEATS_ALIVE:
 		var hide_tween:Tween = create_tween()
-		hide_tween.tween_property(self, "modulate", Color.TRANSPARENT, \
-		tick_time).set_trans(Tween.TRANS_CUBIC)
+		hide_tween.tween_property(self, "modulate", Color.TRANSPARENT, tick_time).set_trans(Tween.TRANS_CUBIC)
 		hide_tween.tween_callback(queue_free) # Kill object at the end of animation
 		return
 
 
-
-
 # -- || Damage || --
 
-func damage_player():
-	SignalManager.hit_player.emit()
+func hit_player():
+	SignalManager.hit_player.emit(DAMAGE)
 	explosion_particles.set_emitting(true)
 	explode_audio.play()
-	sprite.hide()
 	trail_particles.set_emitting(false)
-	# Stop the bullet
-	#speed = 0.0
-	#acceleration = 0.0
-	
+
+	# Make projectile inactive
+	sprite.hide()
+	speed = 0.0
+	col_ref.set_deferred("disabled", true)
 
 
-# -- || Others || --
+# -- || Utilities || --
 
 func ang2pos(ang:float):
 	return Vector2(CIRCLE_LENGTH * sin(ang), -CIRCLE_LENGTH * cos(ang))
+
+
+# -- || Signal Callback || --
 
 func _on_area_area_entered(area):
 	var player = area.owner
@@ -133,5 +136,8 @@ func _on_area_area_entered(area):
 	if is_point:
 		give_point()
 	else:
-		damage_player()
+		hit_player()
 	
+
+func _on_explosion_particles_finished():
+	queue_free()
