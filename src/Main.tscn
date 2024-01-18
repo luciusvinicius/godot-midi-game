@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
 [ext_resource type="VideoStream" path="res://assets/sounds/howls_moving_castle.ogv" id="2_5j6qq"]
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
-[ext_resource type="AudioStream" uid="uid://cxwqfd0fhdvtp" path="res://assets/sounds/Deltarune-Orchestral-edited.mp3" id="4_yi8gi"]
+[ext_resource type="AudioStream" uid="uid://b8w5km3hs3jmi" path="res://assets/sounds/fuga_871.mp3" id="4_jokyr"]
 [ext_resource type="Shader" path="res://src/visual_effects/vignette_noisy.gdshader" id="5_8bf1v"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
 [ext_resource type="Texture2D" uid="uid://c88lfmglvo6dh" path="res://assets/imgs/noise.png" id="6_jltfv"]
@@ -47,11 +47,11 @@ autoplay = true
 expand = true
 
 [node name="MidiPlayer" parent="." instance=ExtResource("2_2pafh")]
-file = "res://assets/sounds/the-world-revolving.mid"
+file = "res://assets/sounds/fuga_871.mid"
 volume_db = -80.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_yi8gi")
+stream = ExtResource("4_jokyr")
 
 [node name="Background" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_m2vh6")
