@@ -15,6 +15,9 @@ const TICKS_PER_BEAT := 2
 var score := 0
 var bpm # Any class can access this
 
+func get_tick_time():
+	return 2 / (Global.bpm / 60) # Wrong time apparently, calculate correctly
+
 
 # --- || Struct Management || ---
 

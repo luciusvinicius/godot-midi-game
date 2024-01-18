@@ -87,7 +87,7 @@ func give_point():
 func process_tick(_is_main_tick):
 	if not is_point or not sprite.visible: return
 	point_particles.set_emitting(true) 
-	var tick_time = 2 / (Global.bpm / 60) # Wrong time apparently, calculate correctly
+	var tick_time = Global.get_tick_time()
 	
 	# Check if note is long enough to make it disappear
 	number_beats += 1
@@ -97,14 +97,7 @@ func process_tick(_is_main_tick):
 		tick_time).set_trans(Tween.TRANS_CUBIC)
 		hide_tween.tween_callback(queue_free) # Kill object at the end of animation
 		return
-	
-	
-	var scale_tween:Tween = create_tween()
-	scale_tween.set_ease(Tween.EASE_IN_OUT)
-	
-	scale_tween.tween_property(self, "scale", scale \
-	+ beat_scale, tick_time).set_trans(Tween.TRANS_CUBIC)
-	beat_scale *= -1
+
 
 
 
