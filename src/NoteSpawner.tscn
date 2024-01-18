@@ -110,6 +110,7 @@ script = ExtResource("2_5bb33")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.784314)
+clip_children = 2
 position = Vector2(0, -50)
 texture = ExtResource("1_hpt6q")
 offset = Vector2(0, -32)
@@ -119,6 +120,5 @@ libraries = {
 "": SubResource("AnimationLibrary_7rba7")
 }
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
+[node name="IndicatorSpawn" type="Node2D" parent="Sprite"]
+position = Vector2(0, -16)

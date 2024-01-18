@@ -9,13 +9,13 @@ extends Node2D
 @export var acceleration := 100
 @export var friction := 50
 
-
 # -- || Grid Vars || --
 const GRID_POSITIONS := 12
 var grid_position := 6 # Value between 0 and GRID_POSITIONS
 var direction := 0
 @onready var goal_position := float(grid_position) / GRID_POSITIONS
 @onready var curve_progress := goal_position * Vector2.RIGHT
+
 
 func _physics_process(delta):
 	

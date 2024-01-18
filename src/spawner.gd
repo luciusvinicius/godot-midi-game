@@ -9,6 +9,7 @@ var channels_colors = [Color.WHITE, Color.RED, Color.DODGER_BLUE]
 #var MAX_NOTES = 1
 #var notes = 0
 
+
 func _ready():
 	SignalManager.note_on.connect(prepare_shot)
 	note_spawners = outer_circle.get_children()
@@ -17,7 +18,8 @@ func _ready():
 func prepare_shot(channel, note, time):
 	#if notes >= MAX_NOTES: return
 	var note_duration = Global.get_note_duration(channel, note, time)
+	
 	if channel in midi_channels_to_process:
 		var channel_color = channels_colors[channel % channels_colors.size()]
-		note_spawners[note%12].insta_shoot(note_duration, channel_color)
+		note_spawners[note%12].spawn_indicator(note_duration, channel_color)
 		#notes += 1

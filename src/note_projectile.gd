@@ -2,12 +2,12 @@ extends Node2D
 
 const CIRCLE_LENGTH = 400
 const BASE_SCORE = 100
-var SPAWN_OFFSET
+
 @onready var sprite : Sprite2D = $Sprite
 @onready var trail_particles = $TrailParticles
 @onready var explode_audio = $ExplodeAudio
 
-var color : Color = Color.WHITE
+var color_ref : Color = Color.WHITE
 
 # 230 speed ~= 383 midi duration
 # 460 speed ~= 192 midi duration
@@ -31,12 +31,17 @@ const ANGLE_RATE := 0.2
 
 const PARTICLE_ANGLE_OFFSET := 90
 
+
 func _ready():
 	SignalManager.tick_played.connect(process_tick)
-	sprite.modulate = color
+	sprite.modulate = color_ref
 
-func calculate_speed(duration: int):
-	speed = (-1.204 * duration) + 691.204
+
+func init_vars(spawn_offset: int, new_duration: int, new_color: Color):
+	position = position + Vector2.UP * spawn_offset
+	color_ref = new_color
+	speed = (-1.204 * new_duration) + 691.204
+
 
 func _process(delta):
 	if is_point: 
@@ -61,6 +66,7 @@ func _point_process(delta):
 	point_particles.process_material.angle_max = rad_to_deg(particle_angle)
 	
 	position = ang2pos(angle)
+
 
 # --- || Points || ---
 
