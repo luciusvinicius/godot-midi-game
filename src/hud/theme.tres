@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dlibmnamnnirm"]
+
+[ext_resource type="FontFile" uid="uid://clus8wjim2rpe" path="res://assets/fonts/dpcomic.ttf" id="1_hylpu"]
+
+[resource]
+default_font = ExtResource("1_hylpu")
+Label/colors/font_color = Color(0.831373, 0.596078, 0.290196, 1)
+Label/font_sizes/font_size = 100

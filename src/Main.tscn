@@ -71,7 +71,6 @@ position = Vector2(960, 540)
 [node name="SongDelay" type="Timer" parent="."]
 wait_time = 1.15
 one_shot = true
-autostart = true
 
 [node name="HUD" parent="." instance=ExtResource("8_rrypj")]
 
@@ -81,5 +80,12 @@ autostart = true
 
 [node name="BPMListener" parent="Others" instance=ExtResource("13_d31bq")]
 
+[node name="MainMenu" type="Node" parent="."]
+
+[node name="MenuBulletTimer" type="Timer" parent="MainMenu"]
+wait_time = 3.0
+autostart = true
+
 [connection signal="timeout" from="SongDelay" to="." method="_on_song_delay_timeout"]
 [connection signal="timeout" from="SongDelay" to="Others/BPMListener" method="_on_song_delay_timeout"]
+[connection signal="timeout" from="MainMenu/MenuBulletTimer" to="." method="_on_menu_bullet_timer_timeout"]

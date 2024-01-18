@@ -1,6 +1,58 @@
-[gd_scene load_steps=2 format=3 uid="uid://dltchrbvnx74c"]
+[gd_scene load_steps=8 format=3 uid="uid://dltchrbvnx74c"]
 
+[ext_resource type="Script" path="res://src/hud/hud.gd" id="1_rjx1n"]
 [ext_resource type="PackedScene" uid="uid://ciplsp4kbcqcx" path="res://src/hud/score.tscn" id="1_wumt4"]
+[ext_resource type="Theme" uid="uid://dlibmnamnnirm" path="res://src/hud/theme.tres" id="2_bvd6q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ip0d8"]
+size = Vector2(197, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8lf57"]
+size = Vector2(168.5, 112.5)
+
+[sub_resource type="Animation" id="Animation_yogs8"]
+resource_name = "start_game"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Start:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Quit:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yylxd"]
+_data = {
+"start_game": SubResource("Animation_yogs8")
+}
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -9,6 +61,50 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_rjx1n")
 
 [node name="Score" parent="." instance=ExtResource("1_wumt4")]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
+
+[node name="Start" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Start"]
+offset_left = 1360.0
+offset_top = 224.0
+offset_right = 1557.0
+offset_bottom = 315.0
+theme = ExtResource("2_bvd6q")
+text = "Start
+"
+
+[node name="StartArea" type="Area2D" parent="Start"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Start/StartArea"]
+position = Vector2(1456, 264)
+shape = SubResource("RectangleShape2D_ip0d8")
+
+[node name="Quit" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Quit"]
+offset_left = 408.0
+offset_top = 768.0
+offset_right = 559.0
+offset_bottom = 859.0
+theme = ExtResource("2_bvd6q")
+text = "Quit"
+
+[node name="QuitArea" type="Area2D" parent="Quit"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Quit/QuitArea"]
+position = Vector2(475.75, 807.75)
+shape = SubResource("RectangleShape2D_8lf57")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Score")
+libraries = {
+"": SubResource("AnimationLibrary_yylxd")
+}
+
+[connection signal="area_entered" from="Start/StartArea" to="." method="_on_start_area_entered"]
+[connection signal="area_entered" from="Quit/QuitArea" to="." method="_on_quit_area_entered"]

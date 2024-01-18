@@ -31,16 +31,19 @@ const ANGLE_RATE := 0.2
 
 const PARTICLE_ANGLE_OFFSET := 90
 
+# -- || Menu Vars || --
+var is_menu := false
 
 func _ready():
 	SignalManager.tick_played.connect(process_tick)
 	sprite.modulate = color_ref
 
 
-func init_vars(spawn_offset: int, new_duration: int, new_color: Color):
+func init_vars(spawn_offset: int, new_duration: int, new_color: Color, menu_bullet: bool):
 	position = position + Vector2.UP * spawn_offset
 	color_ref = new_color
 	speed = (-1.204 * new_duration) + 691.204
+	is_menu = menu_bullet
 
 
 func _process(delta):
@@ -51,7 +54,7 @@ func _process(delta):
 	position += Vector2.UP * speed * delta # Direction has rotation of parent node in consideration
 	
 	# When cross the line
-	if position.y < -CIRCLE_LENGTH:
+	if position.y < -CIRCLE_LENGTH and not is_menu:
 		position.y = -CIRCLE_LENGTH
 		turn_into_point()
 	
@@ -109,12 +112,14 @@ func process_tick(_is_main_tick):
 
 # -- || Damage || --
 
-func damage_player():
-	SignalManager.hit_player.emit()
+func damage_player(menu_hit:=false):
+	if not menu_hit:
+		SignalManager.hit_player.emit()
 	explosion_particles.set_emitting(true)
 	explode_audio.play()
 	sprite.hide()
 	trail_particles.set_emitting(false)
+	
 	# Stop the bullet
 	#speed = 0.0
 	#acceleration = 0.0
@@ -134,5 +139,5 @@ func _on_area_area_entered(area):
 		# Invencible player get the point instead
 		give_point()
 	else:
-		damage_player()
+		damage_player(is_menu)
 	

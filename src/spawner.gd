@@ -23,3 +23,7 @@ func prepare_shot(channel, note, time):
 		var channel_color = channels_colors[channel % channels_colors.size()]
 		note_spawners[note%12].spawn_indicator(note_duration, channel_color)
 		#notes += 1
+
+func menu_prepare_shot(player_pos):
+	var channel_color = channels_colors.pick_random()
+	note_spawners[player_pos%12].spawn_indicator(Global.BIGGEST_DURATION / 2, channel_color, true)
