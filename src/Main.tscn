@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
 [ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
-[ext_resource type="VideoStream" path="res://assets/sounds/howls_moving_castle.ogv" id="2_5j6qq"]
+[ext_resource type="VideoStream" path="res://assets/sounds/piano_video.ogv" id="2_v2ybk"]
 [ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
-[ext_resource type="AudioStream" uid="uid://b8w5km3hs3jmi" path="res://assets/sounds/fuga_871.mp3" id="4_jokyr"]
+[ext_resource type="AudioStream" uid="uid://dl4snm6kdujfi" path="res://assets/sounds/fuga871.mp3" id="4_k7bvf"]
 [ext_resource type="Shader" path="res://src/visual_effects/vignette_noisy.gdshader" id="5_8bf1v"]
 [ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
 [ext_resource type="Texture2D" uid="uid://c88lfmglvo6dh" path="res://assets/imgs/noise.png" id="6_jltfv"]
@@ -30,6 +30,14 @@ script = ExtResource("1_hvkbn")
 [node name="VideoLayer" type="CanvasLayer" parent="."]
 layer = -1
 
+[node name="ColorRect" type="ColorRect" parent="VideoLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="VideoLayer"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,16 +50,16 @@ ratio = 1.7778
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VideoLayer/AspectRatioContainer"]
 layout_mode = 2
-stream = ExtResource("2_5j6qq")
-autoplay = true
+stream = ExtResource("2_v2ybk")
 expand = true
 
 [node name="MidiPlayer" parent="." instance=ExtResource("2_2pafh")]
-file = "res://assets/sounds/fuga_871.mid"
+file = "res://assets/sounds/fuga871.mid"
 volume_db = -80.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_jokyr")
+stream = ExtResource("4_k7bvf")
+volume_db = 10.0
 
 [node name="Background" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_m2vh6")
@@ -69,7 +77,7 @@ position = Vector2(960, 540)
 position = Vector2(960, 540)
 
 [node name="SongDelay" type="Timer" parent="."]
-wait_time = 1.15
+wait_time = 1.5
 one_shot = true
 
 [node name="HUD" parent="." instance=ExtResource("8_rrypj")]
@@ -83,7 +91,7 @@ one_shot = true
 [node name="MainMenu" type="Node" parent="."]
 
 [node name="MenuBulletTimer" type="Timer" parent="MainMenu"]
-wait_time = 3.0
+wait_time = 1.5
 autostart = true
 
 [node name="EndGameDelay" type="Timer" parent="MainMenu"]
@@ -91,6 +99,7 @@ wait_time = 5.0
 one_shot = true
 
 [connection signal="finished" from="MidiPlayer" to="." method="_on_midi_player_finished"]
+[connection signal="finished" from="MidiPlayer" to="Player" method="_on_midi_player_finished"]
 [connection signal="finished" from="MidiPlayer" to="HUD" method="_on_midi_player_finished"]
 [connection signal="timeout" from="SongDelay" to="." method="_on_song_delay_timeout"]
 [connection signal="timeout" from="SongDelay" to="Others/BPMListener" method="_on_song_delay_timeout"]

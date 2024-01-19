@@ -9,10 +9,6 @@ const DAMAGE = 10
 @onready var explode_audio = $ExplodeAudio
 @onready var col_ref = $Area/Collision
 
-var color_ref : Color = Color.WHITE
-
-# 230 speed ~= 383 midi duration
-# 460 speed ~= 192 midi duration
 var speed
 
 # -- || Points Vars || --
@@ -23,7 +19,7 @@ var is_point := false
 
 # -- || Animation || --
 const COLOR_CHANGE_DURATION := 0.5
-const NUMBER_BEATS_ALIVE := 4
+const NUMBER_BEATS_ALIVE := 1
 var beat_scale := 0.0 * Vector2.ONE
 var number_beats := 0
 var angle := 0.0
@@ -35,16 +31,35 @@ const PARTICLE_ANGLE_OFFSET := 90
 # -- || Menu Vars || --
 var is_menu := false
 
+@onready var alt_text_2 = preload("res://assets/imgs/small_bullet_2.png")
+@onready var alt_text_3 = preload("res://assets/imgs/small_bullet_3.png")
+@onready var alt_text_4 = preload("res://assets/imgs/small_bullet_4.png")
+
+
+
 func _ready():
 	SignalManager.tick_played.connect(on_tick)
 	trail_particles.set_emitting(true)
-	sprite.modulate = color_ref
 
 
-func init_vars(spawn_offset: int, new_duration: int, new_color: Color, menu_bullet: bool):
+func init_vars(spawn_offset: int, new_duration: int, channel: int, menu_bullet: bool):
 	position = position + Vector2.UP * spawn_offset
-	color_ref = new_color
-	speed = (-1.204 * new_duration) + 691.204
+
+	var texture_path : String
+	match channel:
+		1:
+			texture_path = "res://assets/imgs/small_bullet_2.png"
+		2:
+			texture_path = "res://assets/imgs/small_bullet_3.png"
+		3:
+			texture_path = "res://assets/imgs/small_bullet_4.png"
+	
+	if channel > 0:
+		var image = Image.load_from_file(texture_path)
+		var texture = ImageTexture.create_from_image(image)
+		$Sprite.texture = texture
+
+	speed = (-0.331 * new_duration) + 759 # simple line equation based on two points. x is midi duration and y is projectile speed
 	is_menu = menu_bullet
 
 
@@ -82,7 +97,7 @@ func turn_into_point():
 	
 	# Cannot just change texture, previously emitted particles are updated as well
 	var tick_time = 2 / (Global.bpm / 60) # Wrong time apparently, calculate correctly
-	point_particles.set_lifetime(tick_time)
+	point_particles.set_lifetime(tick_time/2)
 
 	# Tween animation to change color and flutuation
 	var color_tween:Tween = create_tween()

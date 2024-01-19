@@ -3,6 +3,7 @@ extends Node
 ## -- || Nodes || --
 @onready var midi_player : MidiPlayer = $MidiPlayer
 @onready var audio_player : AudioStreamPlayer = $AudioStreamPlayer
+@onready var video_player : VideoStreamPlayer = $VideoLayer/AspectRatioContainer/VideoStreamPlayer
 @onready var song_delay = $SongDelay
 @onready var end_game_delay = $MainMenu/EndGameDelay
 
@@ -16,13 +17,13 @@ var is_fullscreen := false
 
 func _ready():
 	SignalManager.start_game.connect(start_game)
-	#start()
 
 func start_game():
 	menu_bullet_timer.one_shot = true
 	menu_bullet_timer.stop()
 	midi_player.play()
 	song_delay.start()
+	video_player.play()
 
 func end_game():
 	menu_bullet_timer.start()

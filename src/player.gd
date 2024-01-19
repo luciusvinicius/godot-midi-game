@@ -43,15 +43,17 @@ var is_invencible := false
 var is_stunned := false
 const POINT_PENALTY := 500
 
+#Temp
+var is_in_menu = true
+
 
 func _ready():
 	SignalManager.hit_player.connect(receive_player_damage)
 	SignalManager.start_game.connect(on_start)
 	background_ref = get_parent().find_child("Background")
 
+
 func _physics_process(delta):
-	
-	# Disable input while moving
 	if is_equal_approx(curve_progress.x, goal_position) and not is_stunned:
 		# Cannot hold input
 		direction_input = int(Input.is_action_just_pressed("mov_left")) - int(Input.is_action_just_pressed("mov_right"))
@@ -64,16 +66,28 @@ func _physics_process(delta):
 	curve_progress = curve_progress.move_toward(goal_position * Vector2.RIGHT, delta * speed) 
 	path.progress_ratio = curve_progress.x
 
+
 func take_damage():
 	SignalManager.gained_points.emit(-POINT_PENALTY)
 	animation.play("take_damage")
 
+
 func set_invencibility(val : bool):
 	is_invencible = val
 
+
 func set_stun(val:bool):
 	is_stunned = val
+
+
 # --- || Video Reveal Shader || ---
+
+func tween_mask(hide : bool):
+	var my_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	if hide:
+		my_tween.tween_method(set_mask_radius.bind(background_ref), mask_radius, min_mask, 1.0)
+	else:
+		my_tween.tween_method(set_mask_radius.bind(background_ref), mask_radius, max_mask, 1.0)
 	
 func set_mask_radius(new_radius: float, sprite_ref: Sprite2D):
 	sprite_ref.material.set_shader_parameter("MULTIPLIER", new_radius)
@@ -82,9 +96,9 @@ func set_mask_radius(new_radius: float, sprite_ref: Sprite2D):
 # -- || Signal Callback || --
 
 func on_start():
-	# Reveal video
-	var my_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-	my_tween.tween_method(set_mask_radius.bind(background_ref), mask_radius, max_mask, 1.0)
+	tween_mask(false)
+	is_in_menu = false
+
 
 func receive_player_damage(damage : int):
 	health -= damage
@@ -94,9 +108,11 @@ func receive_player_damage(damage : int):
 
 
 func _on_regen_timer_timeout():
-	if !is_invencible:
-		print("regen")
+	if !is_invencible && !is_in_menu:
 		health += regen_ammount
 		set_mask_radius(mask_radius, background_ref)
 		
-	
+
+func _on_midi_player_finished():
+	tween_mask(true)
+	is_in_menu = true
