@@ -82,9 +82,9 @@ func set_stun(val:bool):
 
 # --- || Video Reveal Shader || ---
 
-func tween_mask(hide : bool):
+func tween_mask(to_hide : bool):
 	var my_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-	if hide:
+	if to_hide:
 		my_tween.tween_method(set_mask_radius.bind(background_ref), mask_radius, min_mask, 1.0)
 	else:
 		my_tween.tween_method(set_mask_radius.bind(background_ref), mask_radius, max_mask, 1.0)

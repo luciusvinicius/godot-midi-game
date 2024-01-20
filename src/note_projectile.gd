@@ -36,7 +36,6 @@ var is_menu := false
 @onready var alt_text_4 = preload("res://assets/imgs/small_bullet_4.png")
 
 
-
 func _ready():
 	SignalManager.tick_played.connect(on_tick)
 	trail_particles.set_emitting(true)
@@ -46,6 +45,7 @@ func init_vars(spawn_offset: int, new_duration: int, channel: int, menu_bullet: 
 	position = position + Vector2.UP * spawn_offset
 
 	var texture_path : String
+	
 	match channel:
 		1:
 			texture_path = "res://assets/imgs/small_bullet_2.png"
@@ -55,9 +55,8 @@ func init_vars(spawn_offset: int, new_duration: int, channel: int, menu_bullet: 
 			texture_path = "res://assets/imgs/small_bullet_4.png"
 	
 	if channel > 0:
-		var image = Image.load_from_file(texture_path)
-		var texture = ImageTexture.create_from_image(image)
-		$Sprite.texture = texture
+		var image = load(texture_path)
+		$Sprite.texture = image
 
 	speed = (-0.331 * new_duration) + 759 # simple line equation based on two points. x is midi duration and y is projectile speed
 	is_menu = menu_bullet

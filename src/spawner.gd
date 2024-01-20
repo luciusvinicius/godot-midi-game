@@ -19,10 +19,8 @@ func prepare_shot(channel, note, time):
 	var note_duration = Global.get_note_duration(channel, note, time)
 	
 	if channel in midi_channels_to_process:
-		var channel_color = channels_colors[channel % channels_colors.size()]
 		note_spawners[note%12].spawn_indicator(note_duration, channel)
 
 
 func menu_prepare_shot(player_pos):
-	var channel_color = channels_colors[0]
 	note_spawners[player_pos%12].spawn_indicator(MENU_BULLET_DURATION, 0, true)

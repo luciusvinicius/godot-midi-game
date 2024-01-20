@@ -26,16 +26,17 @@ func shake(intensity:=INTENSITY, time:=TIME): # time in seconds
 	decrease_ratio = intensity / time
 
 
-func bpm_shake(is_main_tick:bool):
-	var shake_intensity
+func bpm_shake(_is_main_tick: bool):
+	pass
+	""" var shake_intensity
 	if is_main_tick: # Compass shake has different intensity
 		shake_intensity = INTENSITY * COMPASS_SHAKE_MULTIPLIER
 	else:
 		shake_intensity = INTENSITY
-	# shake(shake_intensity) <-- Annoying
+	 shake(shake_intensity) """
 
 
-func on_player_hit(damage):
+func on_player_hit(_damage):
 	shake(INTENSITY*PLAYER_HIT_INTENSITY_MULTIPLIER)
 
 
