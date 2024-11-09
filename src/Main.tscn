@@ -1,108 +1,86 @@
-[gd_scene load_steps=15 format=3 uid="uid://76r7ftga6s6m"]
+[gd_scene load_steps=6 format=3 uid="uid://76r7ftga6s6m"]
 
-[ext_resource type="Script" path="res://src/main.gd" id="1_hvkbn"]
-[ext_resource type="PackedScene" uid="uid://cuyd1qv0pn26e" path="res://addons/midi/MidiPlayer.tscn" id="2_2pafh"]
-[ext_resource type="VideoStream" path="res://assets/sounds/piano_video.ogv" id="2_v2ybk"]
-[ext_resource type="PackedScene" uid="uid://dn5jja5eeq6ky" path="res://src/Spawner.tscn" id="4_ac30d"]
-[ext_resource type="AudioStream" uid="uid://dl4snm6kdujfi" path="res://assets/sounds/fuga871.mp3" id="4_k7bvf"]
-[ext_resource type="Shader" path="res://src/visual_effects/vignette_noisy.gdshader" id="5_8bf1v"]
-[ext_resource type="PackedScene" uid="uid://druu1cbmft3y" path="res://src/Player.tscn" id="5_ji33x"]
-[ext_resource type="Texture2D" uid="uid://c88lfmglvo6dh" path="res://assets/imgs/noise.png" id="6_jltfv"]
-[ext_resource type="Texture2D" uid="uid://dqfl218krqn7l" path="res://assets/imgs/background_solid.png" id="7_obfh2"]
-[ext_resource type="Texture2D" uid="uid://20ileqajublo" path="res://assets/imgs/background_dots.png" id="8_l8igh"]
-[ext_resource type="PackedScene" uid="uid://dltchrbvnx74c" path="res://src/hud/hud.tscn" id="8_rrypj"]
-[ext_resource type="PackedScene" uid="uid://dcye1u0sqmgt8" path="res://src/visual_effects/ScreenShake.tscn" id="12_5h8sy"]
-[ext_resource type="PackedScene" uid="uid://qnl0vr1a1qle" path="res://src/visual_effects/bpm_listener.tscn" id="13_d31bq"]
+[ext_resource type="Script" path="res://src/cam_controller.gd" id="2_im5br"]
+[ext_resource type="PackedScene" uid="uid://d3bvxjb783sof" path="res://src/Background.tscn" id="2_uao02"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m2vh6"]
-shader = ExtResource("5_8bf1v")
-shader_parameter/NOISE_TILE = 2.0
-shader_parameter/SMOOTH = 0.81
-shader_parameter/MIN = 0.455
-shader_parameter/MAX = 0.0
-shader_parameter/STRETCH = 0.648
-shader_parameter/MULTIPLIER = 0.001
-shader_parameter/mask = ExtResource("6_jltfv")
+[sub_resource type="Animation" id="Animation_3lhkx"]
+resource_name = "Bounce"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.174533, -0.174533, 0.174533]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.133333, 0.6, 1.13333, 1.6, 2.13333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 300), Vector2(0, 0), Vector2(0, 300), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ku5m7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_082r5"]
+_data = {
+"Bounce": SubResource("Animation_3lhkx"),
+"RESET": SubResource("Animation_ku5m7")
+}
 
 [node name="Main" type="Node"]
-script = ExtResource("1_hvkbn")
 
-[node name="VideoLayer" type="CanvasLayer" parent="."]
-layer = -1
+[node name="BackgroundController" type="Node2D" parent="."]
+script = ExtResource("2_im5br")
+mov_offset = Vector2(0, 700)
 
-[node name="ColorRect" type="ColorRect" parent="VideoLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
+[node name="Background2" parent="BackgroundController" instance=ExtResource("2_uao02")]
+position = Vector2(-1422, -761)
+lines_color = Color(0.92549, 0.631373, 0.141176, 0.160784)
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VideoLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-ratio = 1.7778
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BackgroundController"]
+libraries = {
+"": SubResource("AnimationLibrary_082r5")
+}
+autoplay = "RESET"
+speed_scale = 0.4
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VideoLayer/AspectRatioContainer"]
-layout_mode = 2
-stream = ExtResource("2_v2ybk")
-expand = true
-
-[node name="MidiPlayer" parent="." instance=ExtResource("2_2pafh")]
-file = "res://assets/sounds/fuga871.mid"
-volume_db = -80.0
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_k7bvf")
-volume_db = 10.0
-
-[node name="Background" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_m2vh6")
-texture = ExtResource("7_obfh2")
-centered = false
-
-[node name="BackgroundDots" type="Sprite2D" parent="."]
-texture = ExtResource("8_l8igh")
-centered = false
-
-[node name="Player" parent="." instance=ExtResource("5_ji33x")]
-position = Vector2(960, 540)
-
-[node name="Spawner" parent="." instance=ExtResource("4_ac30d")]
-position = Vector2(960, 540)
-
-[node name="SongDelay" type="Timer" parent="."]
-wait_time = 1.5
-one_shot = true
-
-[node name="HUD" parent="." instance=ExtResource("8_rrypj")]
-
-[node name="Others" type="Node" parent="."]
-
-[node name="ScreenShake" parent="Others" instance=ExtResource("12_5h8sy")]
-
-[node name="BPMListener" parent="Others" instance=ExtResource("13_d31bq")]
-
-[node name="MainMenu" type="Node" parent="."]
-
-[node name="MenuBulletTimer" type="Timer" parent="MainMenu"]
-wait_time = 1.5
-autostart = true
-
-[node name="EndGameDelay" type="Timer" parent="MainMenu"]
-wait_time = 5.0
-one_shot = true
-
-[connection signal="finished" from="MidiPlayer" to="." method="_on_midi_player_finished"]
-[connection signal="finished" from="MidiPlayer" to="Player" method="_on_midi_player_finished"]
-[connection signal="finished" from="MidiPlayer" to="HUD" method="_on_midi_player_finished"]
-[connection signal="timeout" from="SongDelay" to="." method="_on_song_delay_timeout"]
-[connection signal="timeout" from="SongDelay" to="Others/BPMListener" method="_on_song_delay_timeout"]
-[connection signal="timeout" from="MainMenu/MenuBulletTimer" to="." method="_on_menu_bullet_timer_timeout"]
-[connection signal="timeout" from="MainMenu/EndGameDelay" to="." method="_on_end_game_delay_timeout"]
-[connection signal="timeout" from="MainMenu/EndGameDelay" to="HUD" method="_on_end_game_delay_timeout"]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 168)

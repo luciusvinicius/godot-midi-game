@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3bvxjb783sof"]
+
+[ext_resource type="Script" path="res://src/background.gd" id="2_altmu"]
+[ext_resource type="PackedScene" uid="uid://dhypdckupyu8n" path="res://Line.tscn" id="2_nx2k0"]
+
+[node name="Background" type="Sprite2D"]
+centered = false
+script = ExtResource("2_altmu")
+line_scene = ExtResource("2_nx2k0")
+lines_num = Vector2(10, 10)
+lines_color = Color(0.878431, 0.890196, 0.847059, 1)
+lines_width = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 2949.0
+offset_bottom = 1659.0
+color = Color(0.0156863, 0.0392157, 0.0470588, 1)
+
+[node name="LinesContainer" type="Node2D" parent="."]
+unique_name_in_owner = true

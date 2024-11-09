@@ -15,6 +15,12 @@ const TICKS_PER_BEAT := 2
 var score := 0
 var bpm # Any class can access this
 
+var screen_size = Vector2.ZERO
+var screen_size_multiplier := 1.5
+
+func _ready():
+	screen_size = get_viewport().get_visible_rect().size
+
 func get_tick_time():
 	return 2 / (Global.bpm / 60) # Wrong time apparently, calculate correctly
 
